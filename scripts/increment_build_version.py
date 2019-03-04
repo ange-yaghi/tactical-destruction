@@ -10,7 +10,7 @@ from os.path import isfile, join
 
 from datetime import datetime, date, time
 
-PROJECT_NAME = 'Empty Project'
+PROJECT_NAME = 'Tactical Destruction'
 
 def GetFileLineCount(filename):
     f = open(filename)
