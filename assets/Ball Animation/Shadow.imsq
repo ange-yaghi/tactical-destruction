@@ -1,0 +1,1 @@
+<ImageSequence Pattern="Shadow[####].tga" First="0" Last="20" FrameRate="30/1"><D3dsMaxData><OutputType>Custom</OutputType><ApertureWidth>36.000000</ApertureWidth><PixelAspect>1.000000</PixelAspect><Width>128</Width><Height>128</Height><OutputCamera></OutputCamera><Name>ball.max</Name><CompositeLayer><Name/><Type/></CompositeLayer></D3dsMaxData></ImageSequence>
