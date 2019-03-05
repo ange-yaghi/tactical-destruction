@@ -104,5 +104,8 @@
     <ClInclude Include="..\..\include\dynamic_allocator.h">
       <Filter>Header Files\memory-management</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\container.h">
+      <Filter>Header Files\memory-management</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

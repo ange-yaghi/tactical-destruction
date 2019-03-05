@@ -9,9 +9,9 @@
 
 #define ASSET_PATH "../../assets/"
 
-int BallSortCompare(Ball *A, Ball *B);
+int BallSortCompare(const Ball *A, const Ball *B);
 
-int BallRowSortCompare(Ball *A, Ball *B);
+int BallRowSortCompare(const Ball *A, const Ball *B);
 
 class BlastSquare
 {

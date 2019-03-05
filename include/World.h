@@ -3,7 +3,8 @@
 
 #include "GameObject.h"
 #include "Ball.h"
-#include "Allocators.h"
+#include <dynamic_allocator.h>
+#include <container.h>
 #include "GUI.h"
 
 #define MAX_OBJECTS 2048
@@ -19,7 +20,7 @@
 		return object;											\
 	}															\
 
-int GameObjectSortCompare(GameObject *A, GameObject *B);
+int GameObjectSortCompare(const GameObject *A, const GameObject *B);
 
 class World
 {

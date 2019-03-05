@@ -1,6 +1,5 @@
 #include <SDL.h>
 #include "Image.h"
-#include "Allocators.h"
 #include "World.h"
 #include "InputManager.h"
 #include "DrawingManager.h"

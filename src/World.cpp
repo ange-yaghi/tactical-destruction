@@ -1,13 +1,10 @@
 #include "World.h"
 
-int GameObjectSortCompare(GameObject *A, GameObject *B)
-{
-
+int GameObjectSortCompare(const GameObject *A, const GameObject *B) {
 	if (A->m_systemID > B->m_systemID) return 1;
 	if (A->m_systemID < B->m_systemID) return -1;
 
 	return 0;
-
 }
 
 void World::Render()

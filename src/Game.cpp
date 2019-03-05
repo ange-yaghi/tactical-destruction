@@ -5,18 +5,13 @@
 #include <math.h>
 #include <fstream>
 
-int BallSortCompare(Ball *A, Ball *B)
-{
-
+int BallSortCompare(const Ball *A, const Ball *B) {
 	if (A->m_systemID < B->m_systemID) return -1;
 	if (A->m_systemID > B->m_systemID) return 1;
 	return 0;
-
 }
 
-int BallRowSortCompare(Ball *A, Ball *B)
-{
-
+int BallRowSortCompare(const Ball *A, const Ball *B) {
 	if (A->m_row > B->m_row) return 1;
 	if (A->m_row < B->m_row) return -1;
 
@@ -27,7 +22,6 @@ int BallRowSortCompare(Ball *A, Ball *B)
 	//if (A->m_systemID < B->m_systemID) return -1;
 
 	return 0;
-
 }
 
 void Game::OnBallSelected(Ball *ball)

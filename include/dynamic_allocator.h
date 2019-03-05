@@ -1,6 +1,8 @@
 #ifndef DYNAMIC_ALLOCATOR_H
 #define DYNAMIC_ALLOCATOR_H
 
+#include <static_container.h>
+
 typedef unsigned long long POINTER;
 
 struct MemoryBlock {
