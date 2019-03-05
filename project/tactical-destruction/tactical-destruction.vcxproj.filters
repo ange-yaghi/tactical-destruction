@@ -13,12 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\memory-management">
+      <UniqueIdentifier>{20d7e120-0af5-42d3-926e-6ec6a981c952}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\memory-management">
+      <UniqueIdentifier>{7bc6609e-c6be-485f-9c25-226c34fbbeda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Allocators.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Ball.cpp">
@@ -51,11 +54,11 @@
     <ClCompile Include="..\..\src\World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\dynamic_allocator.cpp">
+      <Filter>Source Files\memory-management</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\Allocators.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Ball.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -88,6 +91,18 @@
     </ClInclude>
     <ClInclude Include="..\..\include\World.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\memory.h">
+      <Filter>Header Files\memory-management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\list_allocator.h">
+      <Filter>Header Files\memory-management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\static_container.h">
+      <Filter>Header Files\memory-management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\dynamic_allocator.h">
+      <Filter>Header Files\memory-management</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

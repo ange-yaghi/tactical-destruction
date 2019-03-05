@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\Allocators.cpp" />
+    <ClCompile Include="..\..\src\dynamic_allocator.cpp" />
     <ClCompile Include="..\..\src\Ball.cpp" />
     <ClCompile Include="..\..\src\DrawingManager.cpp" />
     <ClCompile Include="..\..\src\Game.cpp" />
@@ -33,7 +33,8 @@
     <ClCompile Include="..\..\src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\Allocators.h" />
+    <ClInclude Include="..\..\include\dynamic_allocator.h" />
+    <ClInclude Include="..\..\include\list_allocator.h" />
     <ClInclude Include="..\..\include\Ball.h" />
     <ClInclude Include="..\..\include\DrawingManager.h" />
     <ClInclude Include="..\..\include\Game.h" />
@@ -41,7 +42,9 @@
     <ClInclude Include="..\..\include\GUI.h" />
     <ClInclude Include="..\..\include\Image.h" />
     <ClInclude Include="..\..\include\InputManager.h" />
+    <ClInclude Include="..\..\include\memory.h" />
     <ClInclude Include="..\..\include\resource.h" />
+    <ClInclude Include="..\..\include\static_container.h" />
     <ClInclude Include="..\..\include\Timing.h" />
     <ClInclude Include="..\..\include\Vector.h" />
     <ClInclude Include="..\..\include\World.h" />
