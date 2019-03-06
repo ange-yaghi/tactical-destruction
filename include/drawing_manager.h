@@ -24,8 +24,8 @@ public:
 
 	void InitializeScreen();
 
-	void DrawImage(Image *image, Vector2 location, Vector2 offset=TOP_LEFT);
-	void DrawImageCropped(Image *image, Vector2 location, Vector2 cropLoc, Vector2 cropSize);
+	void DrawImage(Image *image, const Vector2 &location, const Vector2 &offset=TOP_LEFT);
+	void DrawImageCropped(Image *image, const Vector2 &location, const Vector2 &cropLoc, const Vector2 &cropSize);
 
 	SDL_Window *GetScreen() { return m_screen; }
 
@@ -48,7 +48,6 @@ protected:
 	SDL_Renderer *m_renderer;
 	SDL_Window *m_screen;
 	Uint32 m_clearColor;
-
 };
 
 extern DrawingManager DRAWING_MANAGER;

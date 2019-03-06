@@ -30,9 +30,7 @@ unsigned long Timer::GetClock() const {
 }
 
 void Timer::Update() {
-    if (!m_isPaused) {
-        m_frameNumber++;
-    }
+    if (!m_isPaused) m_frameNumber++;
 
     unsigned thisTime = GetTime();
     m_lastFrameDuration = thisTime - m_lastFrameTimestamp;
@@ -43,16 +41,14 @@ void Timer::Update() {
     m_lastFrameClockstamp = thisClock;
 
     if (m_frameNumber > 1) {
-        if (m_averageFrameDuration <= 0)
-        {
+        if (m_averageFrameDuration <= 0) {
             m_averageFrameDuration = (double)m_lastFrameDuration;
         }
-        else
-        {
+        else {
             m_averageFrameDuration *= 0.99;
             m_averageFrameDuration += 0.01 * (double)m_lastFrameDuration;
 
-            m_fps = (float)(1000.0/m_averageFrameDuration);
+            m_fps = (float)(1000.0 / m_averageFrameDuration);
         }
     }
 }

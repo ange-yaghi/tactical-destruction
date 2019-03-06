@@ -86,7 +86,7 @@ void Button::Register() {
 	INPUT_MANAGER.Register(this);
 }
 
-bool Button::OnMouseClick(Vector2 location) {
+bool Button::OnMouseClick(const Vector2 &location) {
 	ProcessInput();
 
 	if (m_state == S_PRESSED) {

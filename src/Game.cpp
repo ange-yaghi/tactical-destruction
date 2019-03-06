@@ -20,24 +20,45 @@ int BallRowSortCompare(const Ball *A, const Ball *B) {
 	if (A->m_column > B->m_column) return 1;
 	if (A->m_column < B->m_column) return -1;
 
-	//if (A->m_systemID > B->m_systemID) return 1;
-	//if (A->m_systemID < B->m_systemID) return -1;
-
 	return 0;
 }
 
+Game::Game() {
+	m_gridStartX = 60;
+	m_gridStartY = 60;
+
+	m_ball1 = m_ball2 = nullptr;
+
+	m_blastArea.SetSortMethod(&BallRowSortCompare);
+	m_blastArea.m_dynamicallyAllocated = false;
+
+	m_creatingNewGameBoard = false;
+
+	m_nextDetonate = 0;
+
+	m_gameOver = false;
+	m_detonating = false;
+	m_quit = false;
+	m_finalScore = 0;
+	m_possibleScore = 0;
+	m_nMoves = 0;
+	m_totalTime = 0;
+	m_scorePerObject = 10;
+}
+
+Game::~Game() {}
+
 void Game::OnBallSelected(Ball *ball) {
-	if (!m_ball1 && ball->m_color != Ball::RED) {
+	if (m_ball1 == nullptr && ball->m_color != Ball::RED) {
 		m_ball1 = ball;
 		return;
 	}
-
-	else if (m_ball1 && m_ball1->m_systemID == ball->m_systemID) {
-		m_ball1 = 0;
+	else if (m_ball1 != nullptr && m_ball1->m_systemID == ball->m_systemID) {
+		m_ball1 = nullptr;
 		return;
 	}
 
-	if (!m_ball2) {
+	if (m_ball2 == nullptr) {
 		if (ball->m_color != Ball::RED) {
 			m_ball2 = ball;
 
@@ -50,8 +71,8 @@ void Game::OnBallSelected(Ball *ball) {
 			m_ball1->m_detonationConnection = m_ball2->m_detonationConnection;
 			m_ball2->m_detonationConnection = tempConnection;
 
-			m_ball2 = 0;
-			m_ball1 = 0;
+			m_ball2 = nullptr;
+			m_ball1 = nullptr;
 
 			m_nMoves++;
 		}
@@ -59,7 +80,7 @@ void Game::OnBallSelected(Ball *ball) {
 		return;
 	}
 	else if (m_ball2->m_systemID == ball->m_systemID) {
-		m_ball2 = 0;
+		m_ball2 = nullptr;
 		return;
 	}
 }
@@ -74,8 +95,8 @@ bool Game::IsValidHover(const Ball *ball) const {
 	if (m_creatingNewGameBoard || !IsSettled() || IsExploding() || ball->m_color == Ball::RED) return false;
 	if (m_ball1 == nullptr) return true;
 
-	if (abs(ball->m_column - m_ball1->m_column) <= 1) {
-		if (abs(ball->m_row - m_ball1->m_row) <= 1) {
+	if (::abs(ball->m_column - m_ball1->m_column) <= 1) {
+		if (::abs(ball->m_row - m_ball1->m_row) <= 1) {
 			return (ball->m_column == m_ball1->m_column || ball->m_row == m_ball1->m_row);
 		}
 	}
@@ -90,7 +111,7 @@ void Game::DetonateBall(Ball *ball) {
 	y = ball->m_row;
 
 	m_blastArea.DeleteObject(ball, false);
-	m_balls[y * m_gridWidth +x] = 0;
+	m_balls[y * m_gridWidth + x] = nullptr;
 	m_world.DeleteObject(ball);
 
 	// Move the whole column down
@@ -139,21 +160,15 @@ void Game::LoadImages() {
 
 	m_sidePanel.LoadImage(ASSET_PATH "GUI/TacticalDestruction.png");
 
-	//m_gridWidth = (DRAWING_MANAGER.GetScreenWidth() - m_sidePanel.GetWidth() - m_gridStartX * 2) / 75 + 1;
-	//m_gridHeight = (DRAWING_MANAGER.GetScreenHeight() - m_gridStartY * 2) / 75 + 1;
-
-	//m_gridWidth = 10;
-	//m_gridHeight = 10;
-
 	this->m_connectionImages = new Image[10];
 	char imageName[256];
-	for(int i=0; i < 10; i++) {
+	for(int i = 0; i < 10; i++) {
 		sprintf_s(imageName, ASSET_PATH  "Connection Images/ConnectionImage%d.png", i + 1);
 		m_connectionImages[i].LoadImage(imageName);
 	}
 
 	m_lockedImages = new Image[10];
-	for(int i=0; i < 10; i++) {
+	for(int i = 0; i < 10; i++) {
 		sprintf_s(imageName, ASSET_PATH "Locked Images/LockedImage%d.png", i+1);
 		m_lockedImages[i].LoadImage(imageName);
 	}
@@ -161,7 +176,7 @@ void Game::LoadImages() {
 	m_blastArea.Allocate(m_gridWidth * m_gridHeight);
 	m_blastSquares.Allocate(m_gridWidth * m_gridHeight);
 	m_balls = new Ball *[m_gridWidth * m_gridHeight];
-	memset(m_balls, 0, sizeof(Ball *)*(m_gridWidth * m_gridHeight));
+	memset(m_balls, 0, sizeof(Ball *) * (m_gridWidth * m_gridHeight));
 }
 
 void Game::ClearGameBoard() {
@@ -173,8 +188,8 @@ void Game::ClearGameBoard() {
 	m_totalTime = 0.0;
 
 	for(int i = 0; i < m_gridHeight * m_gridWidth; i++) {
-		if (m_balls[i]) {
-			if (!m_blastArea.FindItem(m_balls[i])) {
+		if (m_balls[i] != nullptr) {
+			if (m_blastArea.FindItem(m_balls[i]) == nullptr) {
 				m_blastArea.AddObject(m_balls[i]);
 			}
 		}
@@ -189,7 +204,6 @@ void Game::CreateBalls() {
 	ClearGameBoard();
 
 	int maxRed = m_gridHeight;
-
 	int nWhite=0, nBlack=0;
 
 	int *connections = new int[m_gridWidth * m_gridHeight];
@@ -199,7 +213,6 @@ void Game::CreateBalls() {
 
 	for(int connection=0; connection < min(m_gridWidth / 3, 10); connection++) {
 		int n=0;
-
 		while (n < 3) {
 			for(int i=0; i < m_gridHeight && n < 3; i++) {
 				for(int j=0; j < m_gridWidth && n < 3; j++) {
@@ -227,16 +240,13 @@ void Game::CreateBalls() {
 			ball->m_explosionAnimation = m_explosion;
 			ball->m_connectionImages = m_connectionImages;
 			ball->m_lockedImages = m_lockedImages;
-			//ball->m_location = Vector2(75*(j) + m_gridStartX, 75*(i) + m_gridStartY);
 
-			int flop = (i % 2) ? (m_gridWidth - j) : j;
-			ball->m_location = Vector2(75*(j) + m_gridStartX, -100 - (m_gridHeight - i - 1)*(600) - rand() % 400);
+			ball->m_location = Vector2(75 * j + m_gridStartX, -100 - (m_gridHeight - i - 1) * 600 - rand() % 400);
 			ball->m_radius = 35;
 
-			int color = rand()%101;
-
-			if (color <= 50) { ball->m_color = Ball::BLACK; nBlack++; }
-			else if (color <= 100) { ball->m_color = Ball::WHITE; nWhite++; }
+			int u = rand() % 2;
+			if (u == 0) { ball->m_color = Ball::BLACK; nBlack++; }
+			else if (u == 1) { ball->m_color = Ball::WHITE; nWhite++; }
 
 			ball->m_row = i;
 			ball->m_column = j;
@@ -247,14 +257,13 @@ void Game::CreateBalls() {
 		}
 	}
 
-	for(int j=0; j < m_gridWidth; j++) {
-		for(int i=0; i < 2; i++) {
-			int row = rand() % (m_gridHeight);
+	for(int j = 0; j < m_gridWidth; j++) {
+		for(int i = 0; i < 2; i++) {
+			int row = rand() % m_gridHeight;
 			Ball *ball = m_balls[j + m_gridWidth*row];
 
-			int color = rand()%2;
-
-			if (color && ball->m_detonationConnection == -1) {
+			int color = rand() % 2;
+			if (color != 0 && ball->m_detonationConnection == -1) {
 				if (ball->m_color == Ball::BLACK) nBlack--;
 				else if (ball->m_color == Ball::WHITE) nWhite--;
 
@@ -263,10 +272,10 @@ void Game::CreateBalls() {
 		}
 	}
 
-	while(EliminateSquare(&nBlack, &nWhite));
+	while (EliminateSquare(&nBlack, &nWhite));
 
 	m_possibleScore = nBlack + nWhite;
-	if (nWhite % 2) {
+	if (nWhite % 2 == 1) {
 		m_possibleScore -= 2;
 	}
 }
@@ -278,13 +287,15 @@ int Game::GetScore() const {
 
 bool Game::EliminateSquare(int *nBlack, int *nWhite) {
 	for(int i = 0; i < m_gridHeight * m_gridWidth; i++) {
-		if (!m_balls[i]) continue;
+		if (m_balls[i] == nullptr) continue;
 
 		Ball *leftTop = m_balls[i];
 		Ball *rightTop = GetBall(m_balls[i]->m_row, m_balls[i]->m_column+1);
 		Ball *rightBottom = GetBall(m_balls[i]->m_row + 1, m_balls[i]->m_column+1);
 		Ball *leftBottom = GetBall(m_balls[i]->m_row + 1, m_balls[i]->m_column);
-		if (!leftBottom || !rightBottom || !rightTop) continue;
+		if (leftBottom == nullptr 
+			|| rightBottom == nullptr
+			|| rightTop == nullptr) continue;
 
 		if (leftTop->m_color == rightTop->m_color) {
 			if (leftTop->m_color == rightBottom->m_color) {
@@ -304,8 +315,8 @@ bool Game::EliminateSquare(int *nBlack, int *nWhite) {
 }
 
 Ball *Game::GetBall(int row, int column) const {
-	if (row >= m_gridHeight || row < 0) return 0;
-	if (column >= m_gridWidth || column < 0) return 0;
+	if (row >= m_gridHeight || row < 0) return nullptr;
+	if (column >= m_gridWidth || column < 0) return nullptr;
 
 	return m_balls[row * m_gridWidth + column];
 }
@@ -322,7 +333,9 @@ bool Game::IsSquare(Ball *ball, BlastSquare *square) const {
 	Ball *rightBottom = GetBall(ball->m_row + 1, ball->m_column + 1);
 	Ball *leftBottom = GetBall(ball->m_row + 1, ball->m_column);
 
-	if (!rightTop || !rightBottom || !leftBottom) return false;
+	if (rightTop == nullptr
+		|| rightBottom == nullptr 
+		|| leftBottom == nullptr) return false;
 
 	if (rightTop->m_color != ball->m_color) return false;
 	if (rightBottom->m_color != ball->m_color) return false;
@@ -343,11 +356,10 @@ void Game::GenerateBlastSquares() {
 	for(int i = 0; i < arrayLength; i++) {
 		if (!m_balls[i]) continue;
 
-		BlastSquare placeholder;
+		BlastSquare newSquare;
 
-		if (IsSquare(m_balls[i], &placeholder)) {
-			BlastSquare *newSquare = m_blastSquares.AddObject();
-			*newSquare = placeholder;
+		if (IsSquare(m_balls[i], &newSquare)) {
+			*m_blastSquares.AddObject() = newSquare;
 		}
 	}
 }
@@ -363,7 +375,7 @@ void Game::RefineBlastSquares() {
 
 				if (square->Balls[cell]->m_detonationConnection != -1) {
 					for(int connectionBall=0; connectionBall < m_gridWidth * m_gridHeight; connectionBall++) {
-						if (m_balls[connectionBall]
+						if (m_balls[connectionBall] == nullptr
 							&& m_balls[connectionBall]->m_detonationConnection == square->Balls[cell]->m_detonationConnection
 							&& !InBlast(m_balls[connectionBall])) {
 
@@ -387,7 +399,7 @@ int Game::CommonCells(const BlastSquare *square) const {
 
 bool Game::ExpandBlast() {
 	for(int i = 0; i < m_gridHeight * m_gridWidth; i++) {
-		if (!m_balls[i]) continue;
+		if (m_balls[i] == nullptr) continue;
 		if (!InBlast(m_balls[i])) continue;
 
 		Ball *OUT[4];
@@ -398,14 +410,13 @@ bool Game::ExpandBlast() {
 		OUT[3] = GetBall(m_balls[i]->m_row+1, m_balls[i]->m_column);
 
 		bool invalid=false;
-
 		int n=0;
 		for(int ii = 0; ii < 4; ii++) {
-			if (!OUT[ii]) invalid=true;
+			if (OUT[ii] == nullptr) invalid=true;
 			if (OUT[ii]->m_color != m_balls[i]->m_color) invalid=true;
 
 			if (InBlast(OUT[ii])) {
-				OUT[ii] = 0;
+				OUT[ii] = nullptr;
 				n++;
 			}
 		}
@@ -413,7 +424,6 @@ bool Game::ExpandBlast() {
 		if (invalid) continue;
 
 		bool added = false;
-
 		if (n > 1 && n < 4) {
 			for(int ii = 0; ii < 4; ii++) {
 				if (OUT[ii] != nullptr) {
@@ -433,19 +443,19 @@ void Game::DetonateAllSquares() {
 	DetonateSquare();
 }
 
-Vector2 Game::GetNominal(int row, int column) {
+Vector2 Game::GetNominal(int row, int column) const {
 	return Vector2(75 * column + m_gridStartX, 75 * row + m_gridStartY);
 }
 
 void Game::Process() {
-	if (IsSettled() && !IsExploding() && !m_blastArea.m_nObjects && !m_creatingNewGameBoard) {
+	if (IsSettled() && !IsExploding() && m_blastArea.m_nObjects == 0 && !m_creatingNewGameBoard) {
 		if (!DetonateSquare() && m_detonating) {
 			m_gameOver = true;
 			m_detonating = false;
 		}
 	}
 
-	if (!IsExploding() && m_blastArea.m_nObjects && !m_creatingNewGameBoard) {
+	if (!IsExploding() && m_blastArea.m_nObjects > 0 && !m_creatingNewGameBoard) {
 		for(int i = 0; i < m_blastArea.m_nObjects; i++) {
 			m_blastArea.m_array[i]->m_exploding = true;
 		}
@@ -453,13 +463,13 @@ void Game::Process() {
 		if (!m_gameOver) m_detonating = true;
 	}
 
-	if (!IsExploding() && m_blastArea.m_nObjects && m_creatingNewGameBoard) {
+	if (!IsExploding() && m_blastArea.m_nObjects > 0 && m_creatingNewGameBoard) {
 		for(int i = 0; i < m_blastArea.m_nObjects; i++) {
 			m_blastArea.m_array[i]->m_exploding = true;
 		}
 	}
 
-	if (m_creatingNewGameBoard && !m_blastArea.m_nObjects) {
+	if (m_creatingNewGameBoard && m_blastArea.m_nObjects == 0) {
 		CreateBalls();
 		m_creatingNewGameBoard = false;
 	}
@@ -492,8 +502,8 @@ void Game::Process() {
 
 	rect.x += border;
 	rect.y += border;
-	rect.h -= border*2;
-	rect.w -= border*2;
+	rect.h -= border * 2;
+	rect.w -= border * 2;
 
 	//SDL_FillRect(DRAWING_MANAGER.GetScreen(), &rect, SDL_MapRGBA(DRAWING_MANAGER.GetScreen()->format, 50, 50, 50, 255));
 

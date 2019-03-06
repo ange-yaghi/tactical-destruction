@@ -37,7 +37,8 @@ void InputManager::ProcessEvent(SDL_Event event) {
 			int button = SDL_BUTTON(SDL_BUTTON_RIGHT);
 
 			if (state == SDL_BUTTON(SDL_BUTTON_LEFT)) {
-				position.x = x; position.y = y;
+				position.x = x; 
+				position.y = y;
 
 				for (int i=0; i < m_receiverRegistry.m_nObjects; i++) {
 					if (m_receiverRegistry.m_array[i]->OnMouseClick(position)) {
@@ -73,7 +74,6 @@ void InputManager::Reset() {
 }
 
 bool InputManager::IsKeyDown(int key) const {
-	//if (m_keys.
 	return m_keys.at(key) == 1;
 }
 

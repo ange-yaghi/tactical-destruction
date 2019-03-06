@@ -26,8 +26,7 @@ void PlayerObject::ProcessInput() {
 
 void PlayerObject::Process() {
 	m_location += m_movementAccum * (float)TIMER.GetFrameDuration();
-	if (!m_movementAccum.IsZero()) 
-		m_animation.Update();
+	if (!m_movementAccum.IsZero()) m_animation.Update();
 
 	GameObject::Process();
 }

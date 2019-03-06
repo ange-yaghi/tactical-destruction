@@ -50,7 +50,7 @@ public:
 	Button();
 	~Button() {}
 
-	bool OnMouseClick(Vector2 location);
+	bool OnMouseClick(const Vector2 &location);
 	void ProcessInput();
 	void Process();
 	void Render();

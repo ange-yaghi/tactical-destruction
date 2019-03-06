@@ -26,8 +26,8 @@ public:
 
 	bool IsValid() { return m_surface != NULL; }
 
-	SDL_Texture *GetTexture() { return m_texture; }
-	SDL_Surface *GetSurface() { return m_surface; }
+	SDL_Texture *GetTexture() const { return m_texture; }
+	SDL_Surface *GetSurface() const { return m_surface; }
 
 protected:
 	const char *m_fname;

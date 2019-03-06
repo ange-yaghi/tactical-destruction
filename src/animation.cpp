@@ -3,6 +3,16 @@
 #include <drawing_manager.h>
 #include <timing.h>
 
+Animation::Animation() { 
+	m_images = 0; 
+	m_nFrames = 0; 
+	m_frameRate = DEFAULT_FRAME_RATE; 
+	m_currentLocation = 0.0; 
+	m_playMode = PM_PLAY; 
+}
+
+Animation::Animation() {}
+
 void Animation::LoadAnimation(const char *fname, const char *ext, int start, int end) {
 	char *temp = DRAWING_MANAGER.ALLOCATOR.Allocate<char>(1024);
 

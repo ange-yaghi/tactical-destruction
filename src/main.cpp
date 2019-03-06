@@ -13,17 +13,12 @@ int main(int argc, char *argv[]) {
 		return -1;
 
 	DRAWING_MANAGER.InitializeScreen();
-
-	SDL_Event sdlEvent;
-	bool quit = false;
-
 	DRAWING_MANAGER.SetClearColor(0, 0, 0, 255);
 
 	srand(TIMER.GetTime());
 
 	Game game;
 	game.LoadImages();
-	//game.CreateBalls();
 	game.ClearGameBoard();
 
 	GUI *gui = game.m_world.AddGUI();
@@ -33,6 +28,7 @@ int main(int argc, char *argv[]) {
 	TIMER.Initialize();
 	TIMER.Update(); // Update Timing
 
+	SDL_Event sdlEvent;
 	while (!game.m_quit) {
 		INPUT_MANAGER.Reset();
 		INPUT_MANAGER.PollKeyboard();
@@ -43,13 +39,13 @@ int main(int argc, char *argv[]) {
 			}
 
 			if (sdlEvent.type == SDL_KEYDOWN) {
-				if (sdlEvent.key.keysym.sym == SDLK_ESCAPE) game.m_quit = true;
+				if (sdlEvent.key.keysym.sym == SDLK_ESCAPE) {
+					game.m_quit = true;
+				}
 			}
 
 			INPUT_MANAGER.ProcessEvent(sdlEvent);
 		}
-
-		// END
 
 		TIMER.Update(); // Update Timing
 

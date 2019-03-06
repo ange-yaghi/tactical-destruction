@@ -9,6 +9,13 @@ class Game;
 
 class Ball : public GameObject {
 public:
+	enum COLOR {
+		BLACK,
+		WHITE,
+		RED
+	};
+
+public:
 	Ball();
 	~Ball() {}
 
@@ -42,12 +49,6 @@ public:
 	int m_row;
 
 	double m_speed;
-
-	enum COLOR {
-		BLACK,
-		WHITE,
-		RED
-	};
 
 	int m_detonationConnection;
 

@@ -5,8 +5,8 @@
 DrawingManager DRAWING_MANAGER;
 
 void DrawingManager::InitializeScreen() {
-	int screenWidth = GetSystemMetrics( SM_CXSCREEN );
-	int screenHeight = GetSystemMetrics( SM_CYSCREEN );
+	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+	int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
 	m_screen = SDL_CreateWindow("TempTitle",
 		SDL_WINDOWPOS_UNDEFINED,
@@ -18,7 +18,7 @@ void DrawingManager::InitializeScreen() {
 	SDL_GL_GetDrawableSize(m_screen, &m_width, &m_height);
 }
 
-void DrawingManager::DrawImage(Image *image, Vector2 location, Vector2 offset) {
+void DrawingManager::DrawImage(Image *image, const Vector2 &location, const Vector2 &offset) {
 	// TODO: fix
 	if (image->GetTexture() == nullptr) {
 		image->Initialize(m_renderer);
@@ -33,7 +33,7 @@ void DrawingManager::DrawImage(Image *image, Vector2 location, Vector2 offset) {
 	SDL_RenderCopy(m_renderer, image->GetTexture(), nullptr, &rect);
 }
 
-void DrawingManager::DrawImageCropped(Image *image, Vector2 location, Vector2 cropLoc, Vector2 cropSize) {
+void DrawingManager::DrawImageCropped(Image *image, const Vector2 &location, const Vector2 &cropLoc, const Vector2 &cropSize) {
 	// TODO: fix
 	if (image->GetTexture() == nullptr) {
 		image->Initialize(m_renderer);

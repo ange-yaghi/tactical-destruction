@@ -17,8 +17,8 @@ public:
 	static const int DEFAULT_FRAME_RATE = 30;
 
 public:
-	Animation() { m_images = 0; m_nFrames = 0; m_frameRate = DEFAULT_FRAME_RATE; m_currentLocation = 0.0; m_playMode = PM_PLAY; }
-	~Animation() { }
+	Animation();
+	~Animation();
 
 	void LoadAnimation(const char *fname, const char *ext, int start, int end);
 	void SetFrameRate(double FPS);
