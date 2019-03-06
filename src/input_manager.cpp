@@ -64,8 +64,7 @@ void InputManager::PollKeyboard() {
 	const Uint8 *tempKeys = SDL_GetKeyboardState(&keyCount);
 
 	for(int i=0; i < keyCount; i++) {
-		if (tempKeys[i] != 0)
-			m_keys[i] = 1;
+		m_keys.insert_or_assign(i, tempKeys[i]);
 	}
 }
 
@@ -74,6 +73,7 @@ void InputManager::Reset() {
 }
 
 bool InputManager::IsKeyDown(int key) const {
+	//if (m_keys.
 	return m_keys.at(key) == 1;
 }
 

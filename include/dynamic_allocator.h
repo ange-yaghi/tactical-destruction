@@ -38,18 +38,15 @@ public:
 
 	template<typename TYPE>
 	TYPE *Allocate(unsigned int n = 1) {
-		//if (m_showOutput) DrawBlocks();
-
-		if (n == 0) return 0;
+		if (n == 0) return nullptr;
 
 		unsigned long long minDif = ULLONG_MAX;
 		int index = -1;
 
 		for (int i = 0; i < m_memoryBlocks.m_nObjects; i++) {
-
 			if (m_memoryBlocks.m_array[i].m_inUse) continue;
 
-			long long dif = m_memoryBlocks.m_array[i].GetSize() - sizeof(TYPE) * n;
+			unsigned long long dif = m_memoryBlocks.m_array[i].GetSize() - sizeof(TYPE) * n;
 
 			if (dif >= 0) {
 				if (dif < minDif) { index = i; minDif = dif; }
@@ -62,24 +59,9 @@ public:
 		newBlock->m_nObjects = n;
 
 		TYPE *output = new((void *)(location)) TYPE;
-		for (int i = 1; i < n; i++) {
+		for (unsigned int i = 1; i < n; i++) {
 			new((void *)(location + sizeof(TYPE) * i)) TYPE;
 		}
-
-		//if (m_showOutput) 
-		//{
-
-		//	std::cout << "New Block: " << newBlock->m_start - (POINTER)m_storage << " - " << newBlock->m_end - (POINTER)m_storage << "\n";
-
-		//	std::cout << "Allocation: " << "Data Size = " << sizeof(TYPE) 
-		//		<< " Number = " << n << " Address = " << (location - (POINTER)m_storage)
-		//		<< " Total Size = " << sizeof(TYPE) * n << "\n";
-
-		//	DrawBlocks();
-
-		//	system("PAUSE");
-
-		//}
 
 		return output;
 	}
@@ -116,23 +98,16 @@ public:
 		block.m_start = (POINTER)memory;
 
 		MemoryBlock *delBlock = m_memoryBlocks.FindItem(&block);
-		int n = delBlock->m_nObjects;
-		for (int i = 0; i < delBlock->m_nObjects; i++) {
+		for (unsigned int i = 0; i < delBlock->m_nObjects; i++) {
 			(memory + i)->~TYPE();
 		}
 
 		m_memoryBlocks.DeleteObject(&block);
 
 		block.m_inUse = false;
+
+		int n = delBlock->m_nObjects;
 		AddMemoryBlock(block.m_start, block.m_start + sizeof(TYPE) * n, true);
-
-		//if (m_showOutput)
-		//{
-
-		//	std::cout << "Free\n";
-		//	DrawBlocks();
-
-		//}
 	}
 
 	MemoryBlock* ShrinkBlock(int index, POINTER amount) {

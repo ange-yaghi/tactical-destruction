@@ -1,8 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "World.h"
-#include "Ball.h"
+#include <world.h>
+#include <ball.h>
 
 //#define GAME_BOARD_WIDTH 10
 //#define GAME_BOARD_HEIGHT 9

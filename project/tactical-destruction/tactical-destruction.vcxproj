@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\animation.cpp" />
     <ClCompile Include="..\..\src\dynamic_allocator.cpp" />
     <ClCompile Include="..\..\src\ball.cpp" />
     <ClCompile Include="..\..\src\drawing_manager.cpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="..\..\src\world.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\animation.h" />
     <ClInclude Include="..\..\include\container.h" />
     <ClInclude Include="..\..\include\dynamic_allocator.h" />
     <ClInclude Include="..\..\include\list_allocator.h" />

@@ -5,11 +5,8 @@
 DrawingManager DRAWING_MANAGER;
 
 void DrawingManager::InitializeScreen() {
-	int X = GetSystemMetrics( SM_CXSCREEN );
-	int Y = GetSystemMetrics( SM_CYSCREEN );
-
-	//SDL_Rect **rects = SDL_ListModes(NULL, SDL_DOUBLEBUF);
-	//m_screen = SDL_SetVideoMode(X, Y, 32, SDL_DOUBLEBUF | SDL_FULLSCREEN);
+	int screenWidth = GetSystemMetrics( SM_CXSCREEN );
+	int screenHeight = GetSystemMetrics( SM_CYSCREEN );
 
 	m_screen = SDL_CreateWindow("TempTitle",
 		SDL_WINDOWPOS_UNDEFINED,
@@ -25,15 +22,14 @@ void DrawingManager::DrawImage(Image *image, Vector2 location, Vector2 offset) {
 	// TODO: fix
 	if (image->GetTexture() == nullptr) {
 		image->Initialize(m_renderer);
-		int a = 0;
 	}
 
 	SDL_Rect rect;
-	rect.x = Round(location.x) - offset.x * image->GetWidth();
-	rect.y = Round(location.y) - offset.y * image->GetHeight();
-	rect.w = image->GetWidth();
-	rect.h = image->GetHeight();
-	//SDL_BlitSurface(image->GetSurface(), NULL, m_screen, &rect);
+	rect.x = Round(location.x - offset.x * image->GetWidth());
+	rect.y = Round(location.y - offset.y * image->GetHeight());
+	rect.w = Round(image->GetWidth());
+	rect.h = Round(image->GetHeight());
+
 	SDL_RenderCopy(m_renderer, image->GetTexture(), nullptr, &rect);
 }
 
@@ -41,34 +37,28 @@ void DrawingManager::DrawImageCropped(Image *image, Vector2 location, Vector2 cr
 	// TODO: fix
 	if (image->GetTexture() == nullptr) {
 		image->Initialize(m_renderer);
-		int a = 0;
 	}
 
 	SDL_Rect rect;
 	rect.x = Round(location.x);
 	rect.y = Round(location.y);
-	rect.w = cropSize.x;
-	rect.h = cropSize.y;
+	rect.w = Round(cropSize.x);
+	rect.h = Round(cropSize.y);
 
 	SDL_Rect crop;
-	crop.x = cropLoc.x;
-	crop.y = cropLoc.y;
-	crop.w = cropSize.x;
-	crop.h = cropSize.y;
+	crop.x = Round(cropLoc.x);
+	crop.y = Round(cropLoc.y);
+	crop.w = Round(cropSize.x);
+	crop.h = Round(cropSize.y);
 
-	//SDL_BlitSurface(image->GetSurface(), &crop, m_screen, &rect);
 	SDL_RenderCopy(m_renderer, image->GetTexture(), &crop, &rect);
 }
 
 void DrawingManager::StartFrame() {
 	SDL_RenderClear(m_renderer);
-	//SDL_FillRect(m_screen, NULL, m_clearColor); 
-	//SDL_FillRect(m_screen, NULL, SDL_MapRGBA(DRAWING_MANAGER.GetScreen()->format, rand() % 256, rand() % 256, rand() % 256, 255));
 }
 
 void DrawingManager::EndFrame() {
-	//SDL_UpdateRect(m_screen, 0, 0, 0, 0);
-	//SDL_Flip(m_screen);
 	SDL_RenderPresent(m_renderer);
 }
 

@@ -1,8 +1,9 @@
 #ifndef GAME_OBJECT_H
 #define GAME_OBJECT_H
 
-#include "Vector.h"
-#include "Image.h"
+#include <vector.h>
+#include <image.h>
+#include <animation.h>
 
 #include <SDL.h>
 

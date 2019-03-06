@@ -37,16 +37,16 @@ bool Ball::OnRightClick(Vector2 location) {
 		if (m_game->IsValidHover(this)) {
 			int newLockedColor = -1;
 
-			if (INPUT_MANAGER.IsKeyDown(::SDLK_1)) newLockedColor = 0;
-			else if (INPUT_MANAGER.IsKeyDown(::SDLK_2)) newLockedColor = 1;
-			else if (INPUT_MANAGER.IsKeyDown(::SDLK_3)) newLockedColor = 2;
-			else if (INPUT_MANAGER.IsKeyDown(::SDLK_4)) newLockedColor = 3;
-			else if (INPUT_MANAGER.IsKeyDown(::SDLK_5)) newLockedColor = 4;
-			else if (INPUT_MANAGER.IsKeyDown(::SDLK_6)) newLockedColor = 5;
-			else if (INPUT_MANAGER.IsKeyDown(::SDLK_7)) newLockedColor = 6;
-			else if (INPUT_MANAGER.IsKeyDown(::SDLK_8)) newLockedColor = 7;
-			else if (INPUT_MANAGER.IsKeyDown(::SDLK_9)) newLockedColor = 8;
-			else if (INPUT_MANAGER.IsKeyDown(::SDLK_0)) newLockedColor = 9;
+			if (INPUT_MANAGER.IsKeyDown(::SDL_SCANCODE_1)) newLockedColor = 0;
+			else if (INPUT_MANAGER.IsKeyDown(::SDL_SCANCODE_2)) newLockedColor = 1;
+			else if (INPUT_MANAGER.IsKeyDown(::SDL_SCANCODE_3)) newLockedColor = 2;
+			else if (INPUT_MANAGER.IsKeyDown(::SDL_SCANCODE_4)) newLockedColor = 3;
+			else if (INPUT_MANAGER.IsKeyDown(::SDL_SCANCODE_5)) newLockedColor = 4;
+			else if (INPUT_MANAGER.IsKeyDown(::SDL_SCANCODE_6)) newLockedColor = 5;
+			else if (INPUT_MANAGER.IsKeyDown(::SDL_SCANCODE_7)) newLockedColor = 6;
+			else if (INPUT_MANAGER.IsKeyDown(::SDL_SCANCODE_8)) newLockedColor = 7;
+			else if (INPUT_MANAGER.IsKeyDown(::SDL_SCANCODE_9)) newLockedColor = 8;
+			else if (INPUT_MANAGER.IsKeyDown(::SDL_SCANCODE_0)) newLockedColor = 9;
 
 			if (m_lockedColor == -1) {
 				if (newLockedColor == -1) m_lockedColor = 0;
