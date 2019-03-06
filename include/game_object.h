@@ -1,27 +1,27 @@
-#ifndef GAME_OBJECT
-#define GAME_OBJECT
+#ifndef GAME_OBJECT_H
+#define GAME_OBJECT_H
 
 #include "Vector.h"
-#include <SDL.h>
 #include "Image.h"
 
-enum OBJECT_TYPE
-{
+#include <SDL.h>
 
-	PLAYER_OBJECT,
-	NUM_OBJECTS,
-	NULL_TYPE = NUM_OBJECTS,
-	SEARCH_TYPE = NULL_TYPE,
-
-};
-
+// Forward declarations
 class World;
-class GameObject
-{
+
+class GameObject {
+public:
+	enum OBJECT_TYPE {
+		PLAYER_OBJECT,
+		GUI_OBJECT,
+		NUM_OBJECTS,
+		NULL_TYPE = NUM_OBJECTS,
+		SEARCH_TYPE = NULL_TYPE,
+	};
 
 public:
-
 	GameObject() { m_type = NULL_TYPE; m_systemID = -1; }
+	GameObject(OBJECT_TYPE type) : m_type(type), m_systemID(-1) {}
 	virtual ~GameObject() {}
 
 	virtual void KeyDown(int key) {}
@@ -38,27 +38,20 @@ public:
 	virtual void Register() {}
 
 	OBJECT_TYPE GetType() { return m_type; }
-	void SetType(OBJECT_TYPE type) { m_type = type; }
 
-protected:
-
+private:
 	OBJECT_TYPE m_type;
 	
 public:
-
 	Vector2 m_location;
 	Vector2 m_movementAccum;
 
 	int m_systemID;
 	World *m_world;
-
 };
 
-class PlayerObject : public GameObject
-{
-
+class PlayerObject : public GameObject {
 public:
-
 	PlayerObject();
 	~PlayerObject() {}
 
@@ -73,7 +66,6 @@ public:
 	Animation m_animation;
 
 	bool m_moving;
-
 };
 
-#endif
+#endif /* GAME_OBJECT_H */

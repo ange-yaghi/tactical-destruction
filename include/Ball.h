@@ -1,15 +1,14 @@
 #ifndef BALL_H
 #define BALL_H
 
-#include "GameObject.h"
-#include "GUI.h"
+#include <game_object.h>
+#include <gui.h>
 
+// Forward declarations
 class Game;
-class Ball : public GameObject
-{
 
+class Ball : public GameObject {
 public:
-
 	Ball();
 	~Ball() {}
 
@@ -44,13 +43,10 @@ public:
 
 	double m_speed;
 
-	enum COLOR
-	{
-
+	enum COLOR {
 		BLACK,
 		WHITE,
 		RED
-
 	};
 
 	int m_detonationConnection;
@@ -63,10 +59,9 @@ public:
 	bool m_hoverState;
 	bool m_exploding;
 
-	bool IsSettled();
-	bool IsExploded();
-
-
+	bool IsSettled() const;
+	bool IsExploded() const;
+	bool IsExploding() const;
 };
 
-#endif
+#endif /* BALL_H */

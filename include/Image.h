@@ -11,11 +11,8 @@ inline int imin(int a, int b) { return (a < b) ? a : b; }
 inline double fmax(double a, double b) { return (a > b) ? a : b; }
 inline double fmin(double a, double b) { return (a < b) ? a : b; }
 
-class Image
-{
-
+class Image {
 public:
-
 	Image();
 	Image(const char *fname);
 	~Image() { Free(); }
@@ -33,7 +30,6 @@ public:
 	SDL_Surface *GetSurface() { return m_surface; }
 
 protected:
-
 	const char *m_fname;
 
 	int m_width;
@@ -41,16 +37,20 @@ protected:
 
 	SDL_Texture *m_texture;
 	SDL_Surface *m_surface;
-
 };
 
 #define DEFAULT_FRAME_RATE 30
 
-class Animation
-{
+class Animation {
+public:
+	enum PLAY_MODE {
+		PM_PLAY = 0x01,
+		PM_REVERSE = 0x02,
+		PM_LOOP = 0x04,
+		PM_PING_PONG = 0x08
+	};
 
 public:
-
 	Animation() { m_images = 0; m_nFrames = 0; m_frameRate = DEFAULT_FRAME_RATE; m_currentLocation = 0.0; m_playMode = PM_PLAY; }
 	~Animation() { }
 
@@ -65,57 +65,31 @@ public:
 
 	void Free();
 
-	enum PLAY_MODE
-	{
-
-		PM_PLAY = 0x01,
-		PM_REVERSE = 0x02,
-		PM_LOOP = 0x04,
-		PM_PING_PONG = 0x08
-
-	};
-
-
-	inline Image *GetCurrentImage() 
-	{ 
-
+	inline Image *GetCurrentImage() const { 
 		assert(GetCurrentFrame() < m_nFrames);
+
 		return &m_images[GetCurrentFrame()]; 
-
 	}
 
-	inline int GetCurrentFrame()
-	{
-
+	inline int GetCurrentFrame() const {
 		return imin(imax(Round(m_currentLocation * m_frameRate), 0), m_nFrames - 1);
-
 	}
 
-	void SetPlayMode(unsigned int playMode)
-	{
-
+	void SetPlayMode(unsigned int playMode) {
 		m_playMode = playMode;
-
 	}
 
-	void AddPlayMode(PLAY_MODE mode)
-	{
-
+	void AddPlayMode(PLAY_MODE mode) {
 		m_playMode = m_playMode | mode;
-
 	}
 
-	double GetLocation()
-	{
-
+	double GetLocation() const {
 		return m_currentLocation;
-
 	}
 
-	inline double GetEnd() { return (m_nFrames - 1) / m_frameRate; }
+	inline double GetEnd() const { return (m_nFrames - 1) / m_frameRate; }
 
 protected:
-	
 	int m_nFrames;
 	double m_currentLocation;
 	Image *m_images;
@@ -124,7 +98,6 @@ protected:
 	unsigned int m_playMode;
 
 	bool m_reverse; // Used only in ping-pong mode
-
 };
 
-#endif
+#endif /* IMAGE_H */

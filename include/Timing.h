@@ -3,10 +3,10 @@
 
 #include <intrin.h>
 
-class Timer
-{
-
+class Timer {
 public:
+	Timer() {}
+	~Timer() {}
 
     unsigned m_frameNumber;
 
@@ -24,15 +24,14 @@ public:
     void Update();
     void Initialize();
 
-	double GetFrameDuration();
+	double GetFrameDuration() const;
 
-	bool IsAtNextFrame(double FPS);
+	bool IsAtNextFrame(double FPS) const;
 
-    unsigned GetTime();
-    unsigned long GetClock();
-
+    unsigned GetTime() const;
+    unsigned long GetClock() const;
 };
 
 extern Timer TIMER;
 
-#endif
+#endif /* TIMING_H */

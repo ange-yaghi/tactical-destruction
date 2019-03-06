@@ -1,7 +1,7 @@
 #ifndef INPUT_MANAGER_H
 #define INPUT_MANAGER_H
 
-#include "GameObject.h"
+#include <game_object.h>
 #include <container.h>
 
 #include <SDL.h>
@@ -9,24 +9,23 @@
 
 class InputManager {
 public:
-
 	InputManager();
 	~InputManager() {}
 
-	void ProcessEvent(SDL_Event evnt);
+	void ProcessEvent(SDL_Event event);
 	void Register(GameObject *object);
 	void Unregister(GameObject *object);
 
 	void PollKeyboard();
 	void Reset();
-	bool IsKeyDown(int key);
+	bool IsKeyDown(int key) const;
 
-	bool IsMousePressed() {
+	bool IsMousePressed() const {
 		Uint8 state = SDL_GetMouseState(0, 0);
 		return SDL_BUTTON(state) == SDL_BUTTON_LEFT;
 	}
 
-	Vector2 GetMousePos() {
+	Vector2 GetMousePos() const {
 		Vector2 result;
 		int x, y;
 		SDL_GetMouseState(&x, &y);
@@ -38,7 +37,6 @@ public:
 	}
 
 protected:
-	//Uint8 m_keys[SDLK_LAST];
 	std::map<int, Uint8> m_keys;
 
 	Container<GameObject, 1024> m_receiverRegistry;
@@ -46,4 +44,4 @@ protected:
 
 extern InputManager INPUT_MANAGER;
 
-#endif
+#endif /* INPUT_MANAGER_H */

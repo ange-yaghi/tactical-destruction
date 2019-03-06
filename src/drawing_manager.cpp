@@ -1,11 +1,10 @@
-#include "DrawingManager.h"
+#include <drawing_manager.h>
+
 #include <Windows.h>
 
 DrawingManager DRAWING_MANAGER;
 
-void DrawingManager::InitializeScreen()
-{
-
+void DrawingManager::InitializeScreen() {
 	int X = GetSystemMetrics( SM_CXSCREEN );
 	int Y = GetSystemMetrics( SM_CYSCREEN );
 
@@ -22,9 +21,7 @@ void DrawingManager::InitializeScreen()
 	SDL_GL_GetDrawableSize(m_screen, &m_width, &m_height);
 }
 
-void DrawingManager::DrawImage(Image *image, Vector2 location, Vector2 offset)
-{
-
+void DrawingManager::DrawImage(Image *image, Vector2 location, Vector2 offset) {
 	// TODO: fix
 	if (image->GetTexture() == nullptr) {
 		image->Initialize(m_renderer);
@@ -38,12 +35,9 @@ void DrawingManager::DrawImage(Image *image, Vector2 location, Vector2 offset)
 	rect.h = image->GetHeight();
 	//SDL_BlitSurface(image->GetSurface(), NULL, m_screen, &rect);
 	SDL_RenderCopy(m_renderer, image->GetTexture(), nullptr, &rect);
-
 }
 
-void DrawingManager::DrawImageCropped(Image *image, Vector2 location, Vector2 cropLoc, Vector2 cropSize)
-{
-
+void DrawingManager::DrawImageCropped(Image *image, Vector2 location, Vector2 cropLoc, Vector2 cropSize) {
 	// TODO: fix
 	if (image->GetTexture() == nullptr) {
 		image->Initialize(m_renderer);
@@ -66,21 +60,16 @@ void DrawingManager::DrawImageCropped(Image *image, Vector2 location, Vector2 cr
 	SDL_RenderCopy(m_renderer, image->GetTexture(), &crop, &rect);
 }
 
-void DrawingManager::StartFrame()
-{
+void DrawingManager::StartFrame() {
 	SDL_RenderClear(m_renderer);
 	//SDL_FillRect(m_screen, NULL, m_clearColor); 
 	//SDL_FillRect(m_screen, NULL, SDL_MapRGBA(DRAWING_MANAGER.GetScreen()->format, rand() % 256, rand() % 256, rand() % 256, 255));
-
 }
 
-void DrawingManager::EndFrame()
-{
-
+void DrawingManager::EndFrame() {
 	//SDL_UpdateRect(m_screen, 0, 0, 0, 0);
 	//SDL_Flip(m_screen);
 	SDL_RenderPresent(m_renderer);
-
 }
 
 void DrawingManager::SetClearColor(int r, int g, int b, int a) {

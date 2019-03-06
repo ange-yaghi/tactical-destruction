@@ -20,35 +20,35 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\dynamic_allocator.cpp" />
-    <ClCompile Include="..\..\src\Ball.cpp" />
-    <ClCompile Include="..\..\src\DrawingManager.cpp" />
-    <ClCompile Include="..\..\src\Game.cpp" />
-    <ClCompile Include="..\..\src\GUI.cpp" />
-    <ClCompile Include="..\..\src\Image.cpp" />
-    <ClCompile Include="..\..\src\InputManager.cpp" />
+    <ClCompile Include="..\..\src\ball.cpp" />
+    <ClCompile Include="..\..\src\drawing_manager.cpp" />
+    <ClCompile Include="..\..\src\game.cpp" />
+    <ClCompile Include="..\..\src\gui.cpp" />
+    <ClCompile Include="..\..\src\image.cpp" />
+    <ClCompile Include="..\..\src\input_manager.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\Player.cpp" />
-    <ClCompile Include="..\..\src\Timing.cpp" />
-    <ClCompile Include="..\..\src\Vector.cpp" />
-    <ClCompile Include="..\..\src\World.cpp" />
+    <ClCompile Include="..\..\src\player.cpp" />
+    <ClCompile Include="..\..\src\timing.cpp" />
+    <ClCompile Include="..\..\src\vector.cpp" />
+    <ClCompile Include="..\..\src\world.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\container.h" />
     <ClInclude Include="..\..\include\dynamic_allocator.h" />
     <ClInclude Include="..\..\include\list_allocator.h" />
-    <ClInclude Include="..\..\include\Ball.h" />
-    <ClInclude Include="..\..\include\DrawingManager.h" />
-    <ClInclude Include="..\..\include\Game.h" />
-    <ClInclude Include="..\..\include\GameObject.h" />
-    <ClInclude Include="..\..\include\GUI.h" />
-    <ClInclude Include="..\..\include\Image.h" />
-    <ClInclude Include="..\..\include\InputManager.h" />
+    <ClInclude Include="..\..\include\ball.h" />
+    <ClInclude Include="..\..\include\drawing_manager.h" />
+    <ClInclude Include="..\..\include\game.h" />
+    <ClInclude Include="..\..\include\game_object.h" />
+    <ClInclude Include="..\..\include\gui.h" />
+    <ClInclude Include="..\..\include\image.h" />
+    <ClInclude Include="..\..\include\input_manager.h" />
     <ClInclude Include="..\..\include\memory.h" />
     <ClInclude Include="..\..\include\resource.h" />
     <ClInclude Include="..\..\include\static_container.h" />
-    <ClInclude Include="..\..\include\Timing.h" />
-    <ClInclude Include="..\..\include\Vector.h" />
-    <ClInclude Include="..\..\include\World.h" />
+    <ClInclude Include="..\..\include\timing.h" />
+    <ClInclude Include="..\..\include\vector.h" />
+    <ClInclude Include="..\..\include\world.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

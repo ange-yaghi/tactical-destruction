@@ -13,17 +13,11 @@
 #define BOTTOM_RIGHT Vector2(1, 1)
 #define CENTERED Vector2(0.5, 0.5)
 
-class DrawingManager
-{
-
+class DrawingManager {
 public:
-
-	DrawingManager() 
-	{
-	
+	DrawingManager() {
 		m_screen = 0;
 		ALLOCATOR.m_showOutput = false;
-
 	}
 
 	~DrawingManager() {}
@@ -45,14 +39,12 @@ public:
 	int GetScreenHeight() { return m_height; }
 
 public:
-
 	int m_width;
 	int m_height;
 
 	DynamicAllocator<10 * MB> ALLOCATOR;
 
 protected:
-
 	SDL_Renderer *m_renderer;
 	SDL_Window *m_screen;
 	Uint32 m_clearColor;
@@ -61,4 +53,4 @@ protected:
 
 extern DrawingManager DRAWING_MANAGER;
 
-#endif
+#endif /* DRAWING_MANAGER_H */
