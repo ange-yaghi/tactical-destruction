@@ -1,128 +1,27 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "World.h"
-#include "Ball.h"
-
-//#define GAME_BOARD_WIDTH 10
-//#define GAME_BOARD_HEIGHT 9
+#include <world.h>
+#include <ball.h>
+#include <blast_square.h>
 
 #define ASSET_PATH "../../assets/"
 
-int BallSortCompare(Ball *A, Ball *B);
+int BallSortCompare(const Ball *A, const Ball *B);
+int BallRowSortCompare(const Ball *A, const Ball *B);
 
-int BallRowSortCompare(Ball *A, Ball *B);
-
-class BlastSquare
-{
-
+class Game {
 public:
-
-	BlastSquare() {}
-	~BlastSquare() {}
-
-	// Top Left
-
-	union
-	{
-	
-		struct
-		{
-
-			Ball *Reference;
-
-			Ball *TopRight;
-			Ball *BottomRight;
-			Ball *BottomLeft;
-
-		};
-
-		Ball *Balls[4];
-
+	struct Connection {
+		int Connections[3];
 	};
 
-	bool IsValid()
-	{
-
-		return (Reference && TopRight && BottomRight && BottomLeft);
-
-	}
-
-	int CommonSquares(BlastSquare *cmp)
-	{
-
-		if (!cmp->IsValid()) return 0;
-		if (cmp->Reference->m_color != Reference->m_color) return 0;
-		if (cmp == this) return 0;
-
-		int count=0;
-
-		for(int i=0; i < 4; i++)
-		{
-
-			for(int j=0; j < 4; j++)
-			{
-
-				if (Balls[i] == cmp->Balls[j]) 
-				{
-
-					count++;
-					break;
-
-				}
-
-			}
-
-		}
-
-		return count;
-
-	}
-
-};
-
-struct Connection
-{
-
-	int Connections[3];
-
-};
-
-class Game
-{
-
 public:
-
-	Game()
-	{
-
-		m_gridStartX = 60;
-		m_gridStartY = 60;
-
-		m_ball1 = m_ball2 = 0;
-
-		m_blastArea.SetSortMethod(&BallRowSortCompare);
-		m_blastArea.m_dynamicallyAllocated = false;
-
-		m_creatingNewGameBoard = false;
-
-		m_nextDetonate = 0;
-
-		m_gameOver = false;
-		m_detonating = false;
-		m_quit = false;
-		m_finalScore = 0;
-		m_possibleScore = 0;
-		m_nMoves = 0;
-		m_totalTime = 0;
-		m_scorePerObject = 10;
-
-	}
-
-	~Game() {}
+	Game();
+	~Game();
 
 	void OnBallSelected(Ball *ball);
-	bool IsBallSelected(int ID);
+	bool IsBallSelected(int ID) const;
 
 	void LoadImages();
 
@@ -145,8 +44,8 @@ public:
 
 	void Process();
 
-	Ball *GetBall(int x, int y);
-	bool IsValidHover(Ball *ball);
+	Ball *GetBall(int x, int y) const;
+	bool IsValidHover(const Ball *ball) const;
 
 	void DetonateBall(Ball *ball);
 	void MoveBallDown(Ball *ball);
@@ -158,26 +57,20 @@ public:
 	void GenerateBlastSquares();
 	void RefineBlastSquares();
 
-	bool InBlast(Ball *ball)
-	{
-
-		if (!ball) return false;
-		else 
-		{
-
-			bool find = m_blastArea.FindItem(ball) != NULL;
-			return find;
-
+	bool InBlast(const Ball *ball) const {
+		if (ball == nullptr) return false;
+		else {
+			bool found = m_blastArea.FindItem(ball) != NULL;
+			return found;
 		}
-
 	}
 
-	bool IsSquare(Ball *ball, BlastSquare *square);
-	int CommonCells(BlastSquare *square);
+	bool IsSquare(Ball *ball, BlastSquare *square) const;
+	int CommonCells(const BlastSquare *square) const;
 
-	Vector2 GetNominal(int row, int column);
-	bool IsSettled();
-	bool IsExploding();
+	Vector2 GetNominal(int row, int column) const;
+	bool IsSettled() const;
+	bool IsExploding() const;
 
 	bool EliminateSquare(int *nBlack, int *nWhite);
 
@@ -204,10 +97,9 @@ public:
 
 	Connection m_connectionMap[10];
 
-	int GetScore();
+	int GetScore() const;
 
 protected:
-
 	Ball *m_ball1;
 	Ball *m_ball2;
 
@@ -217,9 +109,7 @@ protected:
 	Container<BlastSquare, 0> m_blastSquares;
 
 public:
-
 	World m_world;
-
 };
 
-#endif
+#endif /* WORLD_H */

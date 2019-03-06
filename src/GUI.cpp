@@ -1,13 +1,14 @@
-#include "GUI.h"
-#include "InputManager.h"
-#include "DrawingManager.h"
-#include "Game.h"
+#include <gui.h>
+
+#include <input_manager.h>
+#include <drawing_manager.h>
+#include <game.h>
+#include <button.h>
+#include <simple_label.h>
 
 Image GUI::m_symbols;
 
-void GUI::CreateButtons()
-{
-
+void GUI::CreateButtons() {
 	m_newGameNormal.LoadImage(ASSET_PATH "GUI/NewGameNormal.png");
 	m_newGameHovered.LoadImage(ASSET_PATH "GUI/NewGameHovered.png");
 	m_newGamePressed.LoadImage(ASSET_PATH "GUI/NewGamePressed.png");
@@ -51,20 +52,14 @@ void GUI::CreateButtons()
 	m_time->m_textSymbols = &m_symbols;
 	m_time->m_totalChars = 8;
 	m_time->m_location = Vector2(DRAWING_MANAGER.GetScreenWidth() - 308, 382);
-
 }
 
-void GUI::OnPressedButton(int ID)
-{
-
+void GUI::OnPressedButton(int ID) {
 	if (ID == 0) m_game->ClearGameBoard();
 	else if (ID == 1) m_game->m_quit = true;
-
 }
 
-void GUI::Process()
-{
-
+void GUI::Process() {
 	sprintf_s(m_scoreLabel->m_text, 32, "%i:%i", m_game->GetScore(), Round(m_game->m_finalScore));
 	sprintf_s(m_numMoves->m_text, 32, "%i", m_game->m_nMoves);
 
@@ -75,151 +70,14 @@ void GUI::Process()
 	int seconds = totalSeconds - hours * 3600 - minutes * 60;
 
 	sprintf_s(m_time->m_text, 32, "%.2i:%.2i:%.2i", hours, minutes, seconds);
-	int i=0;
-
 }
 
-void GUI::Render()
-{
-
-	if (m_game->m_gameOver)
-	{
-
+void GUI::Render() {
+	if (m_game->m_gameOver)	{
 		DRAWING_MANAGER.DrawImage(&m_gameOver, Vector2(DRAWING_MANAGER.GetScreenWidth() - 380, 476));
-
 	}
 
-	if (m_game->m_detonating)
-	{
-
+	if (m_game->m_detonating) {
 		DRAWING_MANAGER.DrawImage(&m_detonation, Vector2(DRAWING_MANAGER.GetScreenWidth() - 380, 476));
-
 	}
-
-}
-
-Button::Button()
-{
-
-	
-
-}
-
-void Button::Register()
-{
-
-	INPUT_MANAGER.Register(this);
-
-}
-
-bool Button::OnMouseClick(Vector2 location)
-{
-
-	ProcessInput();
-
-	if (m_state == S_PRESSED)
-	{
-
-		m_gui->OnPressedButton(m_buttonID);
-		return true;
-
-	}
-
-	return false;
-
-}
-
-void Button::ProcessInput()
-{
-
-	m_state = S_NORMAL;
-
-	Vector2 mousePos = INPUT_MANAGER.GetMousePos();
-		
-	if (mousePos.x >= m_location.x && mousePos.x <= m_location.x + m_normalImage->GetWidth())
-	{
-
-		if (mousePos.y >= m_location.y && mousePos.y <= m_location.y + m_normalImage->GetHeight())
-		{
-
-			m_state = S_HOVER;
-
-			if (INPUT_MANAGER.IsMousePressed())
-			{
-
-				m_state = S_PRESSED;
-
-			}
-
-		}
-
-	}
-
-}
-
-void Button::Process()
-{
-}
-
-void Button::Render()
-{
-
-	if (m_state == S_NORMAL)
-	{
-
-		DRAWING_MANAGER.DrawImage(m_normalImage, m_location);
-
-	}
-
-	else if (m_state == S_HOVER)
-	{
-
-		DRAWING_MANAGER.DrawImage(m_hoverImage, m_location);
-
-	}
-
-	else if (m_state == S_PRESSED)
-	{
-
-		DRAWING_MANAGER.DrawImage(m_normalImage, m_location);
-
-	}
-
-}
-
-void SimpleLabel::Render()
-{
-
-	int i=0;
-	int offset=0;
-
-	bool endOfString=false;
-
-	for(; i < m_totalChars; i++)
-	{
-
-		if (!endOfString && m_text[i])
-		{
-
-			if (m_text[i] <= ':' && m_text[i] >= '0')
-			{
-
-				offset = (m_text[i] - '0') * 36;
-
-			}
-
-		}
-
-		else 
-		{
-
-			offset = 11 * 36;
-			endOfString = true;
-
-		}
-
-		DRAWING_MANAGER.DrawImageCropped(m_textSymbols, m_location + Vector2(i*36, 0), Vector2(offset, 0), Vector2(36, 32));
-
-	}
-
 }

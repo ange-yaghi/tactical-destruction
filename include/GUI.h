@@ -1,16 +1,15 @@
 #ifndef GUI_H
 #define GUI_H
 
-#include "GameObject.h"
+#include <game_object.h>
 
+// Forward delarations
 class Game;
 class SimpleLabel;
-class GUI : public GameObject
-{
 
+class GUI : public GameObject {
 public:
-
-	GUI() {}
+	GUI() : GameObject(GUI_OBJECT) {}
 	~GUI() {}
 
 	void CreateButtons();
@@ -37,59 +36,6 @@ public:
 
 	void Render();
 	void Process();
-
 };
 
-class Button : public GameObject
-{
-
-public:
-
-	Button();
-	~Button() {}
-
-	bool OnMouseClick(Vector2 location);
-	void ProcessInput();
-	void Process();
-	void Render();
-
-	void Register();
-
-	enum BUTTON_STATE
-	{
-
-		S_NORMAL,
-		S_HOVER,
-		S_PRESSED,
-
-	};
-
-	BUTTON_STATE m_state;
-
-	Image *m_normalImage;
-	Image *m_hoverImage;
-	Image *m_pressedImage;
-
-	int m_buttonID;
-	GUI *m_gui;
-
-};
-
-class SimpleLabel : public GameObject
-{
-
-public:
-
-	SimpleLabel() { m_totalChars=0; m_text[0] = 0; }
-	~SimpleLabel() {}
-
-	void Render();
-
-	char m_text[32];
-	int m_totalChars;
-
-	Image *m_textSymbols;
-
-};
-
-#endif
+#endif /* GUI_H */
