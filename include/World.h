@@ -2,10 +2,13 @@
 #define WORLD_H
 
 #include <game_object.h>
+#include <player_object.h>
+#include <button.h>
 #include <ball.h>
 #include <dynamic_allocator.h>
 #include <container.h>
 #include <gui.h>
+#include <simple_label.h>
 
 #define MAX_OBJECTS 2048
 

@@ -51,22 +51,4 @@ public:
 	World *m_world;
 };
 
-class PlayerObject : public GameObject {
-public:
-	PlayerObject();
-	~PlayerObject() {}
-
-	SDL_Surface *m_surface;
-
-	void Process();
-	void Render();
-
-	void KeyDown(int key);
-	void ProcessInput();
-
-	Animation m_animation;
-
-	bool m_moving;
-};
-
 #endif /* GAME_OBJECT_H */

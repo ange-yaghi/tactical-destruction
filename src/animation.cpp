@@ -11,7 +11,7 @@ Animation::Animation() {
 	m_playMode = PM_PLAY; 
 }
 
-Animation::Animation() {}
+Animation::~Animation() {}
 
 void Animation::LoadAnimation(const char *fname, const char *ext, int start, int end) {
 	char *temp = DRAWING_MANAGER.ALLOCATOR.Allocate<char>(1024);

@@ -3,6 +3,8 @@
 #include <input_manager.h>
 #include <drawing_manager.h>
 #include <game.h>
+#include <button.h>
+#include <simple_label.h>
 
 Image GUI::m_symbols;
 
@@ -77,71 +79,5 @@ void GUI::Render() {
 
 	if (m_game->m_detonating) {
 		DRAWING_MANAGER.DrawImage(&m_detonation, Vector2(DRAWING_MANAGER.GetScreenWidth() - 380, 476));
-	}
-}
-
-Button::Button() : GameObject(GUI_OBJECT) {}
-
-void Button::Register() {
-	INPUT_MANAGER.Register(this);
-}
-
-bool Button::OnMouseClick(const Vector2 &location) {
-	ProcessInput();
-
-	if (m_state == S_PRESSED) {
-		m_gui->OnPressedButton(m_buttonID);
-		return true;
-	}
-
-	return false;
-}
-
-void Button::ProcessInput() {
-	m_state = S_NORMAL;
-
-	Vector2 mousePos = INPUT_MANAGER.GetMousePos();
-		
-	if (mousePos.x >= m_location.x && mousePos.x <= m_location.x + m_normalImage->GetWidth()) {
-		if (mousePos.y >= m_location.y && mousePos.y <= m_location.y + m_normalImage->GetHeight()) {
-			m_state = S_HOVER;
-
-			if (INPUT_MANAGER.IsMousePressed()) {
-				m_state = S_PRESSED;
-			}
-		}
-	}
-}
-
-void Button::Process() {}
-
-void Button::Render() {
-	if (m_state == S_NORMAL) {
-		DRAWING_MANAGER.DrawImage(m_normalImage, m_location);
-	}
-	else if (m_state == S_HOVER) {
-		DRAWING_MANAGER.DrawImage(m_hoverImage, m_location);
-	}
-	else if (m_state == S_PRESSED) {
-		DRAWING_MANAGER.DrawImage(m_normalImage, m_location);
-	}
-}
-
-void SimpleLabel::Render() {
-	int offset=0;
-	bool endOfString=false;
-
-	for(int i = 0; i < m_totalChars; i++) {
-		if (!endOfString && m_text[i]) {
-			if (m_text[i] <= ':' && m_text[i] >= '0') {
-				offset = (m_text[i] - '0') * 36;
-			}
-		}
-		else {
-			offset = 11 * 36;
-			endOfString = true;
-		}
-
-		DRAWING_MANAGER.DrawImageCropped(m_textSymbols, m_location + Vector2(i*36, 0), Vector2(offset, 0), Vector2(36, 32));
 	}
 }

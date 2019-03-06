@@ -1,4 +1,4 @@
-#include <game_object.h>
+#include <player_object.h>
 
 #include <input_manager.h>
 #include <drawing_manager.h>
@@ -33,6 +33,6 @@ void PlayerObject::Process() {
 
 void PlayerObject::Render() {
 	DRAWING_MANAGER.DrawImage(m_animation.GetCurrentImage(), m_location, CENTERED);
-	
+
 	GameObject::Render();
 }

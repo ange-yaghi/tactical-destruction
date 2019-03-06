@@ -5,19 +5,17 @@
 #include <ball.h>
 #include <blast_square.h>
 
-//#define GAME_BOARD_WIDTH 10
-//#define GAME_BOARD_HEIGHT 9
-
 #define ASSET_PATH "../../assets/"
 
 int BallSortCompare(const Ball *A, const Ball *B);
 int BallRowSortCompare(const Ball *A, const Ball *B);
 
-struct Connection {
-	int Connections[3];
-};
-
 class Game {
+public:
+	struct Connection {
+		int Connections[3];
+	};
+
 public:
 	Game();
 	~Game();

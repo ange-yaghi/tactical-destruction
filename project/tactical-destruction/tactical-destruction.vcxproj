@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\animation.cpp" />
     <ClCompile Include="..\..\src\blast_square.cpp" />
+    <ClCompile Include="..\..\src\button.cpp" />
     <ClCompile Include="..\..\src\dynamic_allocator.cpp" />
     <ClCompile Include="..\..\src\ball.cpp" />
     <ClCompile Include="..\..\src\drawing_manager.cpp" />
@@ -29,7 +30,8 @@
     <ClCompile Include="..\..\src\image.cpp" />
     <ClCompile Include="..\..\src\input_manager.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\player.cpp" />
+    <ClCompile Include="..\..\src\player_object.cpp" />
+    <ClCompile Include="..\..\src\simple_level.cpp" />
     <ClCompile Include="..\..\src\timing.cpp" />
     <ClCompile Include="..\..\src\vector.cpp" />
     <ClCompile Include="..\..\src\world.cpp" />
@@ -37,6 +39,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\animation.h" />
     <ClInclude Include="..\..\include\blast_square.h" />
+    <ClInclude Include="..\..\include\button.h" />
     <ClInclude Include="..\..\include\container.h" />
     <ClInclude Include="..\..\include\dynamic_allocator.h" />
     <ClInclude Include="..\..\include\list_allocator.h" />
@@ -48,7 +51,9 @@
     <ClInclude Include="..\..\include\image.h" />
     <ClInclude Include="..\..\include\input_manager.h" />
     <ClInclude Include="..\..\include\memory.h" />
+    <ClInclude Include="..\..\include\player_object.h" />
     <ClInclude Include="..\..\include\resource.h" />
+    <ClInclude Include="..\..\include\simple_label.h" />
     <ClInclude Include="..\..\include\static_container.h" />
     <ClInclude Include="..\..\include\timing.h" />
     <ClInclude Include="..\..\include\vector.h" />
