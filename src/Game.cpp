@@ -59,7 +59,7 @@ void Game::OnBallSelected(Ball *ball) {
 	}
 
 	if (m_ball2 == nullptr) {
-		if (ball->m_color != Ball::RED) {
+		if (ball->m_color != Ball::RED && ball->IsAdjacent(*m_ball1)) {
 			m_ball2 = ball;
 
 			Ball::COLOR temp = m_ball1->m_color;
@@ -95,13 +95,7 @@ bool Game::IsValidHover(const Ball *ball) const {
 	if (m_creatingNewGameBoard || !IsSettled() || IsExploding() || ball->m_color == Ball::RED) return false;
 	if (m_ball1 == nullptr) return true;
 
-	if (::abs(ball->m_column - m_ball1->m_column) <= 1) {
-		if (::abs(ball->m_row - m_ball1->m_row) <= 1) {
-			return (ball->m_column == m_ball1->m_column || ball->m_row == m_ball1->m_row);
-		}
-	}
-
-	return false;
+	return m_ball1->IsAdjacent(*ball);
 }
 
 void Game::DetonateBall(Ball *ball) {
@@ -128,7 +122,7 @@ void Game::MoveBallDown(Ball *ball) {
 	if (ball == nullptr) return;
 
 	m_balls[(ball->m_row + 1) * m_gridWidth + ball->m_column] = m_balls[ball->m_row * m_gridWidth + ball->m_column];
-	m_balls[ball->m_row * m_gridWidth + ball->m_column] = 0;
+	m_balls[ball->m_row * m_gridWidth + ball->m_column] = nullptr;
 
 	ball->m_row++;
 }
@@ -162,13 +156,13 @@ void Game::LoadImages() {
 
 	this->m_connectionImages = new Image[10];
 	char imageName[256];
-	for(int i = 0; i < 10; i++) {
+	for (int i = 0; i < 10; i++) {
 		sprintf_s(imageName, ASSET_PATH  "Connection Images/ConnectionImage%d.png", i + 1);
 		m_connectionImages[i].LoadImage(imageName);
 	}
 
 	m_lockedImages = new Image[10];
-	for(int i = 0; i < 10; i++) {
+	for (int i = 0; i < 10; i++) {
 		sprintf_s(imageName, ASSET_PATH "Locked Images/LockedImage%d.png", i+1);
 		m_lockedImages[i].LoadImage(imageName);
 	}
@@ -187,7 +181,7 @@ void Game::ClearGameBoard() {
 	m_nMoves = 0;
 	m_totalTime = 0.0;
 
-	for(int i = 0; i < m_gridHeight * m_gridWidth; i++) {
+	for (int i = 0; i < m_gridHeight * m_gridWidth; i++) {
 		if (m_balls[i] != nullptr) {
 			if (m_blastArea.FindItem(m_balls[i]) == nullptr) {
 				m_blastArea.AddObject(m_balls[i]);
@@ -207,15 +201,15 @@ void Game::CreateBalls() {
 	int nWhite=0, nBlack=0;
 
 	int *connections = new int[m_gridWidth * m_gridHeight];
-	for(int connection=0; connection < m_gridWidth * m_gridHeight; connection++) {
+	for (int connection = 0; connection < m_gridWidth * m_gridHeight; connection++) {
 		connections[connection] = -1;
 	}
 
-	for(int connection=0; connection < min(m_gridWidth / 3, 10); connection++) {
+	for (int connection = 0; connection < min(m_gridWidth / 3, 10); connection++) {
 		int n=0;
 		while (n < 3) {
-			for(int i=0; i < m_gridHeight && n < 3; i++) {
-				for(int j=0; j < m_gridWidth && n < 3; j++) {
+			for (int i=0; i < m_gridHeight && n < 3; i++) {
+				for (int j=0; j < m_gridWidth && n < 3; j++) {
 					if (connections[j + i*m_gridWidth] == -1) {
 						if (rand() % (m_gridWidth * m_gridHeight) == 0) {
 							connections[j + i*m_gridWidth] = connection;
@@ -227,8 +221,8 @@ void Game::CreateBalls() {
 		}
 	}
 
-	for(int i=0; i < m_gridHeight; i++) {
-		for(int j=0; j < m_gridWidth; j++) {
+	for (int i = 0; i < m_gridHeight; i++) {
+		for (int j = 0; j < m_gridWidth; j++) {
 			Ball *ball = m_world.AddBall();
 			ball->m_game = this;
 			ball->m_blackBall = &m_blackBall;
@@ -257,8 +251,8 @@ void Game::CreateBalls() {
 		}
 	}
 
-	for(int j = 0; j < m_gridWidth; j++) {
-		for(int i = 0; i < 2; i++) {
+	for (int j = 0; j < m_gridWidth; j++) {
+		for (int i = 0; i < 2; i++) {
 			int row = rand() % m_gridHeight;
 			Ball *ball = m_balls[j + m_gridWidth*row];
 
@@ -286,7 +280,7 @@ int Game::GetScore() const {
 }
 
 bool Game::EliminateSquare(int *nBlack, int *nWhite) {
-	for(int i = 0; i < m_gridHeight * m_gridWidth; i++) {
+	for (int i = 0; i < m_gridHeight * m_gridWidth; i++) {
 		if (m_balls[i] == nullptr) continue;
 
 		Ball *leftTop = m_balls[i];
@@ -353,11 +347,10 @@ void Game::GenerateBlastSquares() {
 	this->m_blastSquares.Clear(true);
 
 	int arrayLength = m_gridHeight * m_gridWidth;
-	for(int i = 0; i < arrayLength; i++) {
-		if (!m_balls[i]) continue;
+	for (int i = 0; i < arrayLength; i++) {
+		if (m_balls[i] == nullptr) continue;
 
 		BlastSquare newSquare;
-
 		if (IsSquare(m_balls[i], &newSquare)) {
 			*m_blastSquares.AddObject() = newSquare;
 		}
@@ -366,16 +359,16 @@ void Game::GenerateBlastSquares() {
 
 void Game::RefineBlastSquares() {
 	m_blastArea.Clear(false);
-	for(int i=0; i < m_blastSquares.m_nObjects; i++) {
+	for (int i = 0; i < m_blastSquares.m_nObjects; i++) {
 		BlastSquare *square = m_blastSquares.m_array[i];
 
-		for(int cell=0; cell < 4; cell++) {
+		for (int cell = 0; cell < 4; cell++) {
 			if (!InBlast(square->Balls[cell])) {
 				m_blastArea.AddObject(square->Balls[cell]);
 
 				if (square->Balls[cell]->m_detonationConnection != -1) {
-					for(int connectionBall=0; connectionBall < m_gridWidth * m_gridHeight; connectionBall++) {
-						if (m_balls[connectionBall] == nullptr
+					for (int connectionBall=0; connectionBall < m_gridWidth * m_gridHeight; connectionBall++) {
+						if (m_balls[connectionBall] != nullptr
 							&& m_balls[connectionBall]->m_detonationConnection == square->Balls[cell]->m_detonationConnection
 							&& !InBlast(m_balls[connectionBall])) {
 
@@ -390,53 +383,11 @@ void Game::RefineBlastSquares() {
 
 int Game::CommonCells(const BlastSquare *square) const {
 	int count = 0;
-	for(int i=0; i < m_blastSquares.m_nObjects; i++) {
+	for (int i = 0; i < m_blastSquares.m_nObjects; i++) {
 		count += m_blastSquares.m_array[i]->CommonSquares(square);
 	}
 
 	return count;
-}
-
-bool Game::ExpandBlast() {
-	for(int i = 0; i < m_gridHeight * m_gridWidth; i++) {
-		if (m_balls[i] == nullptr) continue;
-		if (!InBlast(m_balls[i])) continue;
-
-		Ball *OUT[4];
-
-		OUT[0] = m_balls[i];
-		OUT[1] = GetBall(m_balls[i]->m_row, m_balls[i]->m_column+1);
-		OUT[2] = GetBall(m_balls[i]->m_row+1, m_balls[i]->m_column+1);
-		OUT[3] = GetBall(m_balls[i]->m_row+1, m_balls[i]->m_column);
-
-		bool invalid=false;
-		int n=0;
-		for(int ii = 0; ii < 4; ii++) {
-			if (OUT[ii] == nullptr) invalid=true;
-			if (OUT[ii]->m_color != m_balls[i]->m_color) invalid=true;
-
-			if (InBlast(OUT[ii])) {
-				OUT[ii] = nullptr;
-				n++;
-			}
-		}
-
-		if (invalid) continue;
-
-		bool added = false;
-		if (n > 1 && n < 4) {
-			for(int ii = 0; ii < 4; ii++) {
-				if (OUT[ii] != nullptr) {
-					m_blastArea.AddObject(OUT[ii]);
-					added = true;
-				}
-			}
-		}
-
-		if (added) return true;
-	}
-
-	return false;
 }
 
 void Game::DetonateAllSquares() {
@@ -515,7 +466,7 @@ void Game::Process() {
 }
 
 bool Game::IsSettled() const {
-	for(int i = 0; i < m_gridHeight * m_gridWidth; i++) {
+	for (int i = 0; i < m_gridHeight * m_gridWidth; i++) {
 		if (m_balls[i] != nullptr && !m_balls[i]->IsSettled()) {
 			return false;
 		}
@@ -525,7 +476,7 @@ bool Game::IsSettled() const {
 }
 
 bool Game::IsExploding() const {
-	for(int i = 0; i < m_gridHeight * m_gridWidth; i++) {
+	for (int i = 0; i < m_gridHeight * m_gridWidth; i++) {
 		if (m_balls[i] != nullptr && m_balls[i]->IsExploding()) {
 			return true;
 		}

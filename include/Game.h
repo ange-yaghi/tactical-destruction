@@ -52,7 +52,6 @@ public:
 
 	void DetonateAllSquares();
 	bool DetonateSquare();
-	bool ExpandBlast();
 
 	void GenerateBlastSquares();
 	void RefineBlastSquares();
