@@ -25,6 +25,12 @@
     <Filter Include="Source Files\gui">
       <UniqueIdentifier>{ece38494-02bd-4966-9d8d-ba4a27a0c363}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\animation">
+      <UniqueIdentifier>{ff4f6029-a82c-48ba-9088-f7d78f0bb19a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\animation">
+      <UniqueIdentifier>{6cf1c284-f24a-441f-bf74-ccb3ea4d3f42}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -74,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\player_object.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\keyframe.cpp">
+      <Filter>Source Files\animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\player_object.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\keyframe.h">
+      <Filter>Header Files\animation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

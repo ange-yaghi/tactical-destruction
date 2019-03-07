@@ -29,6 +29,7 @@
     <ClCompile Include="..\..\src\gui.cpp" />
     <ClCompile Include="..\..\src\image.cpp" />
     <ClCompile Include="..\..\src\input_manager.cpp" />
+    <ClCompile Include="..\..\src\keyframe.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\player_object.cpp" />
     <ClCompile Include="..\..\src\simple_level.cpp" />
@@ -42,6 +43,7 @@
     <ClInclude Include="..\..\include\button.h" />
     <ClInclude Include="..\..\include\container.h" />
     <ClInclude Include="..\..\include\dynamic_allocator.h" />
+    <ClInclude Include="..\..\include\keyframe.h" />
     <ClInclude Include="..\..\include\list_allocator.h" />
     <ClInclude Include="..\..\include\ball.h" />
     <ClInclude Include="..\..\include\drawing_manager.h" />
