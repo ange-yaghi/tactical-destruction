@@ -201,11 +201,11 @@ void Game::CreateBalls() {
 	int nWhite=0, nBlack=0;
 
 	int *connections = new int[m_gridWidth * m_gridHeight];
-	for (int connection=0; connection < m_gridWidth * m_gridHeight; connection++) {
+	for (int connection = 0; connection < m_gridWidth * m_gridHeight; connection++) {
 		connections[connection] = -1;
 	}
 
-	for (int connection=0; connection < min(m_gridWidth / 3, 10); connection++) {
+	for (int connection = 0; connection < min(m_gridWidth / 3, 10); connection++) {
 		int n=0;
 		while (n < 3) {
 			for (int i=0; i < m_gridHeight && n < 3; i++) {
@@ -221,8 +221,8 @@ void Game::CreateBalls() {
 		}
 	}
 
-	for (int i=0; i < m_gridHeight; i++) {
-		for (int j=0; j < m_gridWidth; j++) {
+	for (int i = 0; i < m_gridHeight; i++) {
+		for (int j = 0; j < m_gridWidth; j++) {
 			Ball *ball = m_world.AddBall();
 			ball->m_game = this;
 			ball->m_blackBall = &m_blackBall;
@@ -362,7 +362,7 @@ void Game::RefineBlastSquares() {
 	for (int i = 0; i < m_blastSquares.m_nObjects; i++) {
 		BlastSquare *square = m_blastSquares.m_array[i];
 
-		for (int cell=0; cell < 4; cell++) {
+		for (int cell = 0; cell < 4; cell++) {
 			if (!InBlast(square->Balls[cell])) {
 				m_blastArea.AddObject(square->Balls[cell]);
 
