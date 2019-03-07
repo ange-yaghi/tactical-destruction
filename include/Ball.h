@@ -19,8 +19,9 @@ public:
 	Ball();
 	~Ball() {}
 
-	bool OnMouseClick(Vector2 location);
-	bool OnRightClick(Vector2 location);
+	bool OnMouseClick(const Vector2 &location);
+	bool OnRightClick(const Vector2 &location);
+	bool IsAdjacent(const Ball &ball) const;
 	void ProcessInput();
 	void Process();
 	void Render();

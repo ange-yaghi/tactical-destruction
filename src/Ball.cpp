@@ -19,7 +19,7 @@ Ball::Ball() {
 	m_speed = 0;
 }
 
-bool Ball::OnMouseClick(Vector2 location) {
+bool Ball::OnMouseClick(const Vector2 &location) {
 	Vector2 delta = location - m_location;
 
 	if (m_lockedColor == -1 && delta.GetSquareMagnitude() <= m_radius * m_radius) {
@@ -30,7 +30,7 @@ bool Ball::OnMouseClick(Vector2 location) {
 	return false;
 }
 
-bool Ball::OnRightClick(Vector2 location) {
+bool Ball::OnRightClick(const Vector2 &location) {
 	Vector2 delta = location - m_location;
 
 	if (delta.GetSquareMagnitude() <= m_radius * m_radius) {
@@ -63,6 +63,16 @@ bool Ball::OnRightClick(Vector2 location) {
 	}
 
 	return false;
+}
+
+bool Ball::IsAdjacent(const Ball &ball) const {
+	if (::abs(ball.m_column - m_column) <= 1) {
+		if (::abs(ball.m_row - m_row) <= 1) {
+			return (ball.m_column == m_column || ball.m_row == m_row);
+		}
+		else return false;
+	}
+	else return false;
 }
 
 void Ball::ProcessInput() {

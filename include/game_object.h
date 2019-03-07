@@ -27,8 +27,8 @@ public:
 
 	virtual void KeyDown(int key) {}
 	virtual void KeyUp(int key) {}
-	virtual bool OnMouseClick(Vector2 location) { return false; }
-	virtual bool OnRightClick(Vector2 location) { return false; }
+	virtual bool OnMouseClick(const Vector2 &location) { return false; }
+	virtual bool OnRightClick(const Vector2 &location) { return false; }
 
 	virtual void Process() { m_movementAccum.Clear(); }
 	virtual void ProcessInput() {}
