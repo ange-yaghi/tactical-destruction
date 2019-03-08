@@ -15,6 +15,10 @@ public:
 		RED
 	};
 
+	enum ANIMATION_LAYER {
+		FALLING
+	};
+
 public:
 	Ball();
 	~Ball() {}
@@ -49,19 +53,17 @@ public:
 	int m_column;
 	int m_row;
 
-	double m_speed;
-
 	int m_detonationConnection;
 
 	COLOR m_color;
 
 	int m_lockedColor;
 
+	bool m_falling;
 	bool m_selectionState;
 	bool m_hoverState;
 	bool m_exploding;
 
-	bool IsSettled() const;
 	bool IsExploded() const;
 	bool IsExploding() const;
 };

@@ -12,11 +12,10 @@ Ball::Ball() {
 	m_lockedColor = -1;
 
 	m_exploding = false;
+	m_falling = false;
 
 	m_detonationConnection = 0;
 	m_numConnectionImages = 0;
-
-	m_speed = 0;
 }
 
 bool Ball::OnMouseClick(const Vector2 &location) {
@@ -100,6 +99,8 @@ void Ball::ProcessInput() {
 }
 
 void Ball::Process() {
+	GameObject::Process();
+	/*
 	if (!IsSettled()) {	
 		Vector2 target = m_game->GetNominal(m_row, m_column);
 
@@ -111,6 +112,7 @@ void Ball::Process() {
 	else {
 		m_speed = 0;
 	}
+	*/
 }
 
 void Ball::RenderShadow() {
@@ -163,10 +165,6 @@ void Ball::OnDestroy() {
 
 void Ball::Register() {
 	INPUT_MANAGER.Register(this);
-}
-
-bool Ball::IsSettled() const {
-	return (m_game->GetNominal(m_row, m_column) - m_location).IsZero();
 }
 
 bool Ball::IsExploded() const {

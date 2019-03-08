@@ -4,6 +4,7 @@
 #include <drawing_manager.h>
 #include <timing.h>
 #include <math.h>
+#include <falling_animation.h>
 
 #include <fstream>
 
@@ -29,7 +30,7 @@ Game::Game() {
 
 	m_ball1 = m_ball2 = nullptr;
 
-	m_blastArea.SetSortMethod(&BallRowSortCompare);
+	m_blastArea.SetSortMethod(&BallSortCompare);
 	m_blastArea.m_dynamicallyAllocated = false;
 
 	m_creatingNewGameBoard = false;
@@ -98,20 +99,15 @@ bool Game::IsValidHover(const Ball *ball) const {
 	return m_ball1->IsAdjacent(*ball);
 }
 
-void Game::DetonateBall(Ball *ball) {
+void Game::DeleteBall(Ball *ball) {
 	int x, y;
 
 	x = ball->m_column;
 	y = ball->m_row;
 
 	m_blastArea.DeleteObject(ball, false);
-	m_balls[y * m_gridWidth + x] = nullptr;
+	//m_balls[y * m_gridWidth + x] = nullptr;
 	m_world.DeleteObject(ball);
-
-	// Move the whole column down
-	for(int i = y - 1; i >= 0; i--) {
-		MoveBallDown(GetBall(i, ball->m_column));
-	}
 
 	if (!m_gameOver && !m_creatingNewGameBoard) {
 		m_finalScore++;
@@ -125,6 +121,7 @@ void Game::MoveBallDown(Ball *ball) {
 	m_balls[ball->m_row * m_gridWidth + ball->m_column] = nullptr;
 
 	ball->m_row++;
+	ball->m_falling = true;
 }
 
 void Game::LoadImages() {
@@ -245,9 +242,13 @@ void Game::CreateBalls() {
 			ball->m_row = i;
 			ball->m_column = j;
 
-			ball->m_detonationConnection = connections[j + i*m_gridWidth];
+			ball->m_detonationConnection = connections[j + i * m_gridWidth];
 
-			m_balls[j + i*m_gridWidth] = ball;
+			m_balls[j + i * m_gridWidth] = ball;
+
+			// Add falling animation
+			FallingAnimation *animation = ball->AddAnimationController<FallingAnimation>();
+			animation->SetTargetY((float)GetNominal(ball->m_row, ball->m_column).y);
 		}
 	}
 
@@ -407,16 +408,57 @@ void Game::Process() {
 	}
 
 	if (!IsExploding() && m_blastArea.m_nObjects > 0 && !m_creatingNewGameBoard) {
-		for(int i = 0; i < m_blastArea.m_nObjects; i++) {
-			m_blastArea.m_array[i]->m_exploding = true;
+		for (int i = 0; i < m_blastArea.m_nObjects; i++) {
+			Ball *ball = m_blastArea.m_array[i];
+			ball->m_exploding = true;
+
+			m_balls[ball->m_row * m_gridWidth + ball->m_column] = nullptr;
+
+			// Move the whole column down
+			int y = ball->m_row;
+			for (int i = y - 1; i >= 0; i--) {
+				MoveBallDown(GetBall(i, ball->m_column));
+			}
 		}
+
+		float *impulses = new float[m_gridWidth];
+		for (int i = 0; i < m_gridWidth; i++) {
+			impulses[i] = 1.0f;
+		}
+
+		for (int i = m_gridHeight - 1; i >= 0; i--) {
+			for (int j = 0; j < m_gridWidth; j++) {
+				if (impulses[j] > 0.0f) {
+					impulses[j] = -100.0f - (float)(rand() % 20);
+				}
+				else {
+					impulses[j] -= (float)(rand() % 5);
+				}
+
+				Ball *ball = m_balls[i * m_gridWidth + j];
+				if (ball != nullptr && ball->m_falling) {
+					FallingAnimation *animation = ball->AddAnimationController<FallingAnimation>();
+					animation->SetStartingImpulse(Vector2(0.0f, impulses[j]));
+					animation->SetTargetY((float)GetNominal(ball->m_row, ball->m_column).y);
+
+					// Reset the flag
+					ball->m_falling = false;
+				}
+			}
+		}
+
+		delete[] impulses;
 
 		if (!m_gameOver) m_detonating = true;
 	}
 
 	if (!IsExploding() && m_blastArea.m_nObjects > 0 && m_creatingNewGameBoard) {
-		for(int i = 0; i < m_blastArea.m_nObjects; i++) {
+		for (int i = 0; i < m_blastArea.m_nObjects; i++) {
 			m_blastArea.m_array[i]->m_exploding = true;
+		}
+
+		for (int i = 0; i < m_gridWidth * m_gridHeight; i++) {
+			m_balls[i] = nullptr;
 		}
 	}
 
@@ -425,15 +467,13 @@ void Game::Process() {
 		m_creatingNewGameBoard = false;
 	}
 
-	if (m_blastArea.m_nObjects && m_blastArea.m_array[m_nextDetonate]->IsExploded()) {
-		if (!m_creatingNewGameBoard) {
-			DetonateBall(m_blastArea.m_array[m_nextDetonate]);
+	if (m_blastArea.m_nObjects > 0 && m_blastArea.m_array[m_nextDetonate]->IsExploded()) {
+		int blastAreaCount = m_blastArea.m_nObjects;
+		for (int i = 0; i < blastAreaCount; i++) {
+			DeleteBall(m_blastArea.m_array[m_nextDetonate]);
 		}
-		else {
-			for(int i = 0; i < m_blastArea.m_nObjects; i++) {
-				DetonateBall(m_blastArea.m_array[m_nextDetonate]);
-			}
-		}
+
+		int a = 0;
 	}
 
 	m_world.ProcessInput();
@@ -478,6 +518,12 @@ bool Game::IsSettled() const {
 bool Game::IsExploding() const {
 	for (int i = 0; i < m_gridHeight * m_gridWidth; i++) {
 		if (m_balls[i] != nullptr && m_balls[i]->IsExploding()) {
+			return true;
+		}
+	}
+
+	for (int i = 0; i < m_blastArea.m_nObjects; i++) {
+		if (m_blastArea.m_array[i]->IsExploding()) {
 			return true;
 		}
 	}

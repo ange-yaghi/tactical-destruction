@@ -188,11 +188,15 @@ public:
 
 		m_array[m_nObjects - 1] = 0;
 
-		m_nObjects--;
+ 		m_nObjects--;
 	}
 
 	void DeleteObject(TYPE *ref, bool destroy = true) {
-		DeleteObject(FindItemIndex(ref), destroy);
+		int index = FindItemIndex(ref);
+
+		assert(index != -1);
+
+		DeleteObject(index, destroy);
 	}
 
 	void Sort(int(*compare)(const TYPE *A, const TYPE *B)) {

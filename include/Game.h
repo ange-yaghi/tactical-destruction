@@ -47,7 +47,7 @@ public:
 	Ball *GetBall(int x, int y) const;
 	bool IsValidHover(const Ball *ball) const;
 
-	void DetonateBall(Ball *ball);
+	void DeleteBall(Ball *ball);
 	void MoveBallDown(Ball *ball);
 
 	void DetonateAllSquares();
