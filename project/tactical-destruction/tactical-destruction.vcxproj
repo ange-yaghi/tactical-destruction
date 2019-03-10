@@ -35,7 +35,7 @@
     <ClCompile Include="..\..\src\keyframe.cpp" />
     <ClCompile Include="..\..\src\keyframe_animation.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\simple_level.cpp" />
+    <ClCompile Include="..\..\src\simple_label.cpp" />
     <ClCompile Include="..\..\src\timing.cpp" />
     <ClCompile Include="..\..\src\vector.cpp" />
     <ClCompile Include="..\..\src\world.cpp" />

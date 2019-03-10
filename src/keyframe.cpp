@@ -5,6 +5,8 @@ Keyframe::Keyframe() {
 	m_scale = 1.0f;
 	m_position = Vector2(0, 0);
 	m_timestamp = 0.0f;
+
+	m_interpolationFunction = LINEAR;
 	m_flags = 0x0;
 }
 
@@ -16,4 +18,14 @@ void Keyframe::AddFlag(FLAG flag) {
 
 bool Keyframe::IsFlagEnabled(FLAG flag) const {
 	return (m_flags & (0x1 >> flag)) > 0;
+}
+
+float Keyframe::FilterWeight(float weight) const {
+	if (m_interpolationFunction == LINEAR) {
+		return weight;
+	}
+	else if (m_interpolationFunction == COSINE) {
+		constexpr float PI = 3.14159f;
+		return pow(1.0f - ((::cos(weight * PI) + 1.0f) / 2.0f), 4.0f);
+	}
 }

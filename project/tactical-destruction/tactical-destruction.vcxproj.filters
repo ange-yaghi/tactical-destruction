@@ -75,9 +75,6 @@
     <ClCompile Include="..\..\src\blast_square.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\simple_level.cpp">
-      <Filter>Source Files\gui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\gui.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
@@ -98,6 +95,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\keyframe_animation.cpp">
       <Filter>Source Files\animation\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\simple_label.cpp">
+      <Filter>Source Files\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

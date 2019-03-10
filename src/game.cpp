@@ -78,19 +78,23 @@ void Game::OnBallSelected(Ball *ball) {
 			Keyframe *key1 = animation1->AddKeyframe(0.0f);
 			key1->AddFlag(Keyframe::LOCATION_KEY);
 			key1->SetPosition(m_ball1->m_location);
+			key1->SetInterpolationFunction(Keyframe::COSINE);
 
 			Keyframe *key2 = animation1->AddKeyframe(0.25f);
 			key2->AddFlag(Keyframe::LOCATION_KEY);
 			key2->SetPosition(m_ball2->m_location);
+			key2->SetInterpolationFunction(Keyframe::COSINE);
 
 			KeyframeAnimation *animation2 = m_ball2->AddAnimationController<KeyframeAnimation>();
 			Keyframe *key1b = animation2->AddKeyframe(0.0f);
 			key1b->AddFlag(Keyframe::LOCATION_KEY);
 			key1b->SetPosition(m_ball2->m_location);
+			key1b->SetInterpolationFunction(Keyframe::COSINE);
 
 			Keyframe *key2b = animation2->AddKeyframe(0.25f);
 			key2b->AddFlag(Keyframe::LOCATION_KEY);
 			key2b->SetPosition(m_ball1->m_location);
+			key2b->SetInterpolationFunction(Keyframe::COSINE);
 
 			int tempRow = m_ball1->m_row;
 			int tempColumn = m_ball1->m_column;

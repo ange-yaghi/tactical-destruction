@@ -106,7 +106,11 @@ float KeyframeAnimation::CalculateW(float position, const Keyframe *a, const Key
 	if (b == nullptr) return 0.0f;
 	
 	float distance = b->GetTimestamp() - a->GetTimestamp();
-	float w = position - a->GetTimestamp();
+	float w = (position - a->GetTimestamp()) / distance;
 
-	return w / distance;
+	float w1 = a->FilterWeight(w);
+	float w2 = b->FilterWeight(w);
+
+	float remappedWeight = (1.0f - w) * w1 + w * w2;
+	return remappedWeight;
 }
