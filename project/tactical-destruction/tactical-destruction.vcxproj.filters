@@ -34,6 +34,9 @@
     <Filter Include="Header Files\animation\library">
       <UniqueIdentifier>{5e6b8637-aa59-4d6f-8ae3-8f88bddbef7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\animation\library">
+      <UniqueIdentifier>{f9f5086a-9b91-4007-abe0-90dbc8d4e27d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -91,7 +94,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\falling_animation.cpp">
-      <Filter>Source Files\animation</Filter>
+      <Filter>Source Files\animation\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\keyframe_animation.cpp">
+      <Filter>Source Files\animation\library</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +171,9 @@
       <Filter>Header Files\animation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\falling_animation.h">
+      <Filter>Header Files\animation\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\keyframe_animation.h">
       <Filter>Header Files\animation\library</Filter>
     </ClInclude>
   </ItemGroup>

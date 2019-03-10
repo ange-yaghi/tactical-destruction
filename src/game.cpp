@@ -5,6 +5,7 @@
 #include <timing.h>
 #include <math.h>
 #include <falling_animation.h>
+#include <keyframe_animation.h>
 
 #include <fstream>
 
@@ -63,6 +64,7 @@ void Game::OnBallSelected(Ball *ball) {
 		if (ball->m_color != Ball::RED && ball->IsAdjacent(*m_ball1)) {
 			m_ball2 = ball;
 
+			/*
 			Ball::COLOR temp = m_ball1->m_color;
 			int tempConnection = m_ball1->m_detonationConnection;
 
@@ -71,6 +73,35 @@ void Game::OnBallSelected(Ball *ball) {
 
 			m_ball1->m_detonationConnection = m_ball2->m_detonationConnection;
 			m_ball2->m_detonationConnection = tempConnection;
+			*/
+			KeyframeAnimation *animation1 = m_ball1->AddAnimationController<KeyframeAnimation>();
+			Keyframe *key1 = animation1->AddKeyframe(0.0f);
+			key1->AddFlag(Keyframe::LOCATION_KEY);
+			key1->SetPosition(m_ball1->m_location);
+
+			Keyframe *key2 = animation1->AddKeyframe(0.25f);
+			key2->AddFlag(Keyframe::LOCATION_KEY);
+			key2->SetPosition(m_ball2->m_location);
+
+			KeyframeAnimation *animation2 = m_ball2->AddAnimationController<KeyframeAnimation>();
+			Keyframe *key1b = animation2->AddKeyframe(0.0f);
+			key1b->AddFlag(Keyframe::LOCATION_KEY);
+			key1b->SetPosition(m_ball2->m_location);
+
+			Keyframe *key2b = animation2->AddKeyframe(0.25f);
+			key2b->AddFlag(Keyframe::LOCATION_KEY);
+			key2b->SetPosition(m_ball1->m_location);
+
+			int tempRow = m_ball1->m_row;
+			int tempColumn = m_ball1->m_column;
+			m_ball1->m_row = m_ball2->m_row;
+			m_ball1->m_column = m_ball2->m_column;
+			
+			m_ball2->m_row = tempRow;
+			m_ball2->m_column = tempColumn;
+
+			m_balls[m_ball1->m_row * m_gridWidth + m_ball1->m_column] = m_ball1;
+			m_balls[m_ball2->m_row * m_gridWidth + m_ball2->m_column] = m_ball2;
 
 			m_ball2 = nullptr;
 			m_ball1 = nullptr;
@@ -255,7 +286,7 @@ void Game::CreateBalls() {
 	for (int j = 0; j < m_gridWidth; j++) {
 		for (int i = 0; i < 2; i++) {
 			int row = rand() % m_gridHeight;
-			Ball *ball = m_balls[j + m_gridWidth*row];
+			Ball *ball = m_balls[j + m_gridWidth * row];
 
 			int color = rand() % 2;
 			if (color != 0 && ball->m_detonationConnection == -1) {

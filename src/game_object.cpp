@@ -24,7 +24,7 @@ void GameObject::Integrate() {
 }
 
 bool GameObject::IsSettled() const {
-	return m_acceleration.IsZero() && m_velocity.IsZero();
+	return m_acceleration.IsZero() && m_velocity.IsZero() && (int)m_animationControllers.size() == 0;
 }
 
 void GameObject::ProcessAnimations() {
