@@ -2,7 +2,6 @@
 #define WORLD_H
 
 #include <game_object.h>
-#include <player_object.h>
 #include <button.h>
 #include <ball.h>
 #include <dynamic_allocator.h>
@@ -36,7 +35,6 @@ public:
 
 	~World() {}
 
-	OBJECT_ADD(PlayerObject, AddPlayer);
 	OBJECT_ADD(Ball, AddBall);
 	OBJECT_ADD(GUI, AddGUI);
 	OBJECT_ADD(Button, AddButton);

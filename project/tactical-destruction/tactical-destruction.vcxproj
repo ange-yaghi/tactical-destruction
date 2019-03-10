@@ -20,17 +20,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\animation.cpp" />
+    <ClCompile Include="..\..\src\animation_controller.cpp" />
     <ClCompile Include="..\..\src\blast_square.cpp" />
     <ClCompile Include="..\..\src\button.cpp" />
     <ClCompile Include="..\..\src\dynamic_allocator.cpp" />
     <ClCompile Include="..\..\src\ball.cpp" />
     <ClCompile Include="..\..\src\drawing_manager.cpp" />
+    <ClCompile Include="..\..\src\falling_animation.cpp" />
     <ClCompile Include="..\..\src\game.cpp" />
+    <ClCompile Include="..\..\src\game_object.cpp" />
     <ClCompile Include="..\..\src\gui.cpp" />
     <ClCompile Include="..\..\src\image.cpp" />
     <ClCompile Include="..\..\src\input_manager.cpp" />
+    <ClCompile Include="..\..\src\keyframe.cpp" />
+    <ClCompile Include="..\..\src\keyframe_animation.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\player_object.cpp" />
     <ClCompile Include="..\..\src\simple_level.cpp" />
     <ClCompile Include="..\..\src\timing.cpp" />
     <ClCompile Include="..\..\src\vector.cpp" />
@@ -38,10 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\animation.h" />
+    <ClInclude Include="..\..\include\animation_controller.h" />
     <ClInclude Include="..\..\include\blast_square.h" />
     <ClInclude Include="..\..\include\button.h" />
     <ClInclude Include="..\..\include\container.h" />
     <ClInclude Include="..\..\include\dynamic_allocator.h" />
+    <ClInclude Include="..\..\include\falling_animation.h" />
+    <ClInclude Include="..\..\include\keyframe.h" />
+    <ClInclude Include="..\..\include\keyframe_animation.h" />
     <ClInclude Include="..\..\include\list_allocator.h" />
     <ClInclude Include="..\..\include\ball.h" />
     <ClInclude Include="..\..\include\drawing_manager.h" />

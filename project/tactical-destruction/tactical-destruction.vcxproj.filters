@@ -25,6 +25,18 @@
     <Filter Include="Source Files\gui">
       <UniqueIdentifier>{ece38494-02bd-4966-9d8d-ba4a27a0c363}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\animation">
+      <UniqueIdentifier>{ff4f6029-a82c-48ba-9088-f7d78f0bb19a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\animation">
+      <UniqueIdentifier>{6cf1c284-f24a-441f-bf74-ccb3ea4d3f42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\animation\library">
+      <UniqueIdentifier>{5e6b8637-aa59-4d6f-8ae3-8f88bddbef7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\animation\library">
+      <UniqueIdentifier>{f9f5086a-9b91-4007-abe0-90dbc8d4e27d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp">
@@ -72,8 +84,20 @@
     <ClCompile Include="..\..\src\button.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\player_object.cpp">
+    <ClCompile Include="..\..\src\keyframe.cpp">
+      <Filter>Source Files\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\game_object.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\animation_controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\falling_animation.cpp">
+      <Filter>Source Files\animation\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\keyframe_animation.cpp">
+      <Filter>Source Files\animation\library</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +163,18 @@
     </ClInclude>
     <ClInclude Include="..\..\include\player_object.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\keyframe.h">
+      <Filter>Header Files\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\animation_controller.h">
+      <Filter>Header Files\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\falling_animation.h">
+      <Filter>Header Files\animation\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\keyframe_animation.h">
+      <Filter>Header Files\animation\library</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
