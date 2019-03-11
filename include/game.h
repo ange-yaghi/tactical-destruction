@@ -5,7 +5,11 @@
 #include <ball.h>
 #include <blast_square.h>
 
+#ifdef RELEASE_BUILD
+#define ASSET_PATH "assets/"
+#else
 #define ASSET_PATH "../../assets/"
+#endif /* RELEASE_BUILD */
 
 int BallSortCompare(const Ball *A, const Ball *B);
 int BallRowSortCompare(const Ball *A, const Ball *B);

@@ -26,6 +26,10 @@ float Keyframe::FilterWeight(float weight) const {
 	}
 	else if (m_interpolationFunction == COSINE) {
 		constexpr float PI = 3.14159f;
-		return pow(1.0f - ((::cos(weight * PI) + 1.0f) / 2.0f), 4.0f);
+		return powf(1.0f - ((::cosf(weight * PI) + 1.0f) / 2.0f), 4.0f);
+	}
+	else {
+		// Default to linear
+		return weight;
 	}
 }
