@@ -160,7 +160,7 @@ void Game::MoveBallDown(Ball *ball) {
 }
 
 void Game::LoadImages() {
-	std::ifstream configurationFile("configuration.txt");
+	std::ifstream configurationFile(ASSET_PATH "config/configuration.txt");
 
 	configurationFile >> m_gridWidth;
 	configurationFile >> m_gridHeight;
