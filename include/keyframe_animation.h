@@ -12,7 +12,7 @@ public:
 	~KeyframeAnimation();
 
 	void FindKeyframePair(float position, Keyframe::FLAG flag, Keyframe **a, Keyframe **b);
-	Keyframe *GetLastKeyframe(Keyframe::FLAG flag);
+	Keyframe *GetLastKeyframe(Keyframe::FLAG flag) const;
 
 	virtual bool IsDone() const;
 	virtual void OnStart();

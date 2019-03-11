@@ -9,14 +9,14 @@ KeyframeAnimation::KeyframeAnimation() {
 }
 
 KeyframeAnimation::~KeyframeAnimation() {
-	int nKeys = m_keyframes.size();
+	int nKeys = (int)m_keyframes.size();
 	for (int i = 0; i < nKeys; i++) {
 		delete m_keyframes[i];
 	}
 }
 
 void KeyframeAnimation::FindKeyframePair(float position, Keyframe::FLAG flag, Keyframe **a, Keyframe **b) {
-	int nKeyframes = m_keyframes.size();
+	int nKeyframes = (int)m_keyframes.size();
 
 	*a = nullptr;
 	*b = nullptr;
@@ -39,8 +39,8 @@ void KeyframeAnimation::FindKeyframePair(float position, Keyframe::FLAG flag, Ke
 	}
 }
 
-Keyframe *KeyframeAnimation::GetLastKeyframe(Keyframe::FLAG flag) {
-	int nKeyframes = m_keyframes.size();
+Keyframe *KeyframeAnimation::GetLastKeyframe(Keyframe::FLAG flag) const {
+	int nKeyframes = (int)m_keyframes.size();
 
 	for (int i = nKeyframes - 1; i >= 0; i--) {
 		if (m_keyframes[i]->IsFlagEnabled(flag)) {
@@ -71,7 +71,7 @@ void KeyframeAnimation::OnFinish() {
 
 void KeyframeAnimation::Process() {
 	Keyframe *key1, *key2;
-	float dt = TIMER.GetFrameDuration();
+	float dt = (float)TIMER.GetFrameDuration();
 	float w;
 
 	FindKeyframePair(m_currentPosition, Keyframe::LOCATION_KEY, &key1, &key2);
