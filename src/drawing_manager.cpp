@@ -8,11 +8,10 @@ void DrawingManager::InitializeScreen() {
 	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
 	int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-	m_screen = SDL_CreateWindow("TempTitle",
+	m_screen = SDL_CreateWindow("Tactical Destruction",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
-		0, 0, SDL_WINDOW_MAXIMIZED
-		/*SDL_WINDOW_FULLSCREEN_DESKTOP*/);
+		0, 0, SDL_WINDOW_MAXIMIZED);
 	m_renderer = SDL_CreateRenderer(m_screen, -1, 0);
 
 	SDL_GL_GetDrawableSize(m_screen, &m_width, &m_height);

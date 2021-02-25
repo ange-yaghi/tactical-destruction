@@ -80,46 +80,46 @@
     <ProjectGuid>{6DB2FA44-5C75-431B-85F5-BAA11D6EF583}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>emptyproject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Optimized|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Optimized|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -199,7 +199,8 @@
       <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2main.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>python $(SolutionDir)..\..\scripts\increment_build_version.py</Command>
+      <Command>py $(ProjectDir)\..\..\scripts\increment_build_version.py
+py $(ProjectDir)\..\..\scripts\package_application.py $(PlatformTarget) $(Configuration) "$(VCInstallDir)\Redist\MSVC\$(VCToolsRedistVersion)\$(PlatformTarget)\Microsoft.VC142.CRT" $(ProjectName)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -218,7 +219,8 @@
       <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2main.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>python $(SolutionDir)..\..\scripts\increment_build_version.py</Command>
+      <Command>py $(ProjectDir)\..\..\scripts\increment_build_version.py
+py $(ProjectDir)\..\..\scripts\package_application.py $(PlatformTarget) $(Configuration) "$(VCInstallDir)\Redist\MSVC\$(VCToolsRedistVersion)\$(PlatformTarget)\Microsoft.VC142.CRT" $(ProjectName)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Optimized|Win32'">
@@ -241,7 +243,8 @@
       <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2main.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>python $(SolutionDir)..\..\scripts\increment_build_version.py</Command>
+      <Command>py $(ProjectDir)\..\..\scripts\increment_build_version.py
+py $(ProjectDir)\..\..\scripts\package_application.py $(PlatformTarget) $(Configuration) "$(VCInstallDir)\Redist\MSVC\$(VCToolsRedistVersion)\$(PlatformTarget)\Microsoft.VC142.CRT" $(ProjectName)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -264,8 +267,8 @@
       <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2main.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>python $(SolutionDir)..\..\scripts\increment_build_version.py
-python $(SolutionDir)..\..\scripts\build_script.py $(ProjectName) $(PlatformTarget) $(IntDir) </Command>
+      <Command>py $(ProjectDir)\..\..\scripts\increment_build_version.py
+py $(ProjectDir)\..\..\scripts\package_application.py $(PlatformTarget) $(Configuration) "$(VCInstallDir)\Redist\MSVC\$(VCToolsRedistVersion)\$(PlatformTarget)\Microsoft.VC142.CRT" $(ProjectName)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Optimized|x64'">
@@ -288,7 +291,8 @@ python $(SolutionDir)..\..\scripts\build_script.py $(ProjectName) $(PlatformTarg
       <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2main.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>python $(SolutionDir)..\..\scripts\increment_build_version.py</Command>
+      <Command>py $(ProjectDir)\..\..\scripts\increment_build_version.py
+py $(ProjectDir)\..\..\scripts\package_application.py $(PlatformTarget) $(Configuration) "$(VCInstallDir)\Redist\MSVC\$(VCToolsRedistVersion)\$(PlatformTarget)\Microsoft.VC142.CRT" $(ProjectName)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -311,8 +315,8 @@ python $(SolutionDir)..\..\scripts\build_script.py $(ProjectName) $(PlatformTarg
       <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2main.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>python $(SolutionDir)..\..\scripts\increment_build_version.py
-python $(SolutionDir)..\..\scripts\build_script.py $(ProjectName) $(PlatformTarget) $(IntDir) </Command>
+      <Command>py $(ProjectDir)\..\..\scripts\increment_build_version.py
+py $(ProjectDir)\..\..\scripts\package_application.py $(PlatformTarget) $(Configuration) "$(VCInstallDir)\Redist\MSVC\$(VCToolsRedistVersion)\$(PlatformTarget)\Microsoft.VC142.CRT" $(ProjectName)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

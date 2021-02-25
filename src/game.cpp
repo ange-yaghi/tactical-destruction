@@ -48,7 +48,9 @@ Game::Game() {
 	m_scorePerObject = 10;
 }
 
-Game::~Game() {}
+Game::~Game() {
+	/* void */
+}
 
 void Game::OnBallSelected(Ball *ball) {
 	if (m_ball1 == nullptr && ball->m_color != Ball::RED) {
@@ -64,16 +66,6 @@ void Game::OnBallSelected(Ball *ball) {
 		if (ball->m_color != Ball::RED && ball->IsAdjacent(*m_ball1)) {
 			m_ball2 = ball;
 
-			/*
-			Ball::COLOR temp = m_ball1->m_color;
-			int tempConnection = m_ball1->m_detonationConnection;
-
-			m_ball1->m_color = m_ball2->m_color;
-			m_ball2->m_color = temp;
-
-			m_ball1->m_detonationConnection = m_ball2->m_detonationConnection;
-			m_ball2->m_detonationConnection = tempConnection;
-			*/
 			KeyframeAnimation *animation1 = m_ball1->AddAnimationController<KeyframeAnimation>();
 			Keyframe *key1 = animation1->AddKeyframe(0.0f);
 			key1->AddFlag(Keyframe::LOCATION_KEY);
@@ -135,13 +127,9 @@ bool Game::IsValidHover(const Ball *ball) const {
 }
 
 void Game::DeleteBall(Ball *ball) {
-	int x, y;
-
-	x = ball->m_column;
-	y = ball->m_row;
+	const int x = ball->m_column, y = ball->m_row;
 
 	m_blastArea.DeleteObject(ball, false);
-	//m_balls[y * m_gridWidth + x] = nullptr;
 	m_world.DeleteObject(ball);
 
 	if (!m_gameOver && !m_creatingNewGameBoard) {
@@ -238,7 +226,7 @@ void Game::CreateBalls() {
 	}
 
 	for (int connection = 0; connection < min(m_gridWidth / 3, 10); connection++) {
-		int n=0;
+		int n = 0;
 		while (n < 3) {
 			for (int i=0; i < m_gridHeight && n < 3; i++) {
 				for (int j=0; j < m_gridWidth && n < 3; j++) {
@@ -270,7 +258,7 @@ void Game::CreateBalls() {
 			ball->m_location = Vector2(75 * j + m_gridStartX, -100 - (m_gridHeight - i - 1) * 600 - rand() % 400);
 			ball->m_radius = 35;
 
-			int u = rand() % 2;
+			const int u = rand() % 2;
 			if (u == 0) { ball->m_color = Ball::BLACK; nBlack++; }
 			else if (u == 1) { ball->m_color = Ball::WHITE; nWhite++; }
 
@@ -382,7 +370,7 @@ bool Game::IsSquare(Ball *ball, BlastSquare *square) const {
 void Game::GenerateBlastSquares() {
 	this->m_blastSquares.Clear(true);
 
-	int arrayLength = m_gridHeight * m_gridWidth;
+	const int arrayLength = m_gridHeight * m_gridWidth;
 	for (int i = 0; i < arrayLength; i++) {
 		if (m_balls[i] == nullptr) continue;
 
@@ -507,31 +495,12 @@ void Game::Process() {
 		for (int i = 0; i < blastAreaCount; i++) {
 			DeleteBall(m_blastArea.m_array[m_nextDetonate]);
 		}
-
-		int a = 0;
 	}
 
 	m_world.ProcessInput();
 	m_world.Process();
 
 	DRAWING_MANAGER.DrawImage(&m_sidePanel, Vector2(DRAWING_MANAGER.GetScreenWidth(), 0), TOP_RIGHT);
-
-	int border = 5;
-
-	SDL_Rect rect;
-	rect.x = m_gridStartX  - 90 / 2;
-	rect.y = m_gridStartY - 90 / 2;
-	rect.w = m_gridWidth * 75 + 15;
-	rect.h = m_gridHeight * 75 + 15;
-
-	//SDL_FillRect(DRAWING_MANAGER.GetScreen(), &rect, SDL_MapRGBA(DRAWING_MANAGER.GetScreen()->format, 2, 122, 187, 255));
-
-	rect.x += border;
-	rect.y += border;
-	rect.h -= border * 2;
-	rect.w -= border * 2;
-
-	//SDL_FillRect(DRAWING_MANAGER.GetScreen(), &rect, SDL_MapRGBA(DRAWING_MANAGER.GetScreen()->format, 50, 50, 50, 255));
 
 	m_world.Render();
 
